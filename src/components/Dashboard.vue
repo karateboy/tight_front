@@ -1,8 +1,6 @@
 <template>
     <div class="dashboard">
-        {{ isAuthenticated }}
-        <br/>
-        <button class="btn btn-primary" @click="test">認證</button>
+        <h1>{{ user.groupId + "的儀錶板"}}</h1>
     </div>
 </template>
 <style>
@@ -21,7 +19,7 @@
             }
         },
         computed: {
-            ...mapGetters(['isAuthenticated']),
+            ...mapGetters(['isAuthenticated', 'user']),
         },
         methods: {
                 ...mapActions(['authenticate']),

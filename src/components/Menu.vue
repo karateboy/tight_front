@@ -24,14 +24,25 @@
                 <ul class="nav nav-second-level collapse">
                     <router-link tag="li" to="/Order/New" active-class="active"><a><i class="fa fa-th-large"></i> <span
                             class="nav-label">新增訂單</span> </a></router-link>
-                    <router-link tag="li" to="/order/mine" active-class="active"><a><i class="fa fa-th-large"></i> <span
+                    <router-link tag="li" to="/Order/Mine" active-class="active"><a><i class="fa fa-th-large"></i> <span
                             class="nav-label">我的訂單</span> </a></router-link>
-                    <router-link tag="li" to="/order/query" active-class="active"><a><i class="fa fa-th-large"></i> <span
-                            class="nav-label">查詢訂單</span> </a></router-link>
+                    <router-link tag="li" to="/Order/Query" active-class="active"><a><i class="fa fa-th-large"></i>
+                        <span
+                                class="nav-label">查詢訂單</span> </a></router-link>
                 </ul>
             </li>
-            <router-link tag="li" to="/schedule" active-class="active"><a><i class="fa fa-th-large"></i> <span
-                    class="nav-label">生產排程</span> </a></router-link>
+            <li>
+                <a><i class="fa fa-th-large"></i> <span class="nav-label">生產排程</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <router-link to='/Schedule/New' tag='li' role="presentation" active-class='active'><a>排定工作</a>
+                    </router-link>
+                    <router-link to='/Schedule/DyeCardList' tag='li' role="presentation" active-class='active'><a>漂染單</a>
+                    </router-link>
+                    <router-link to='/Schedule/WorkCard' tag='li' role="presentation" active-class='active'><a>流動工作卡</a>
+                    </router-link>
+                </ul>
+            </li>
             <router-link tag="li" to="/updateStatus" active-class="active"><a><i class="fa fa-th-large"></i> <span
                     class="nav-label">更新進度</span> </a></router-link>
         </ul>
@@ -41,18 +52,18 @@
 
 </style>
 <script>
-    import { mapGetters } from 'vuex'
-
+    import {mapGetters} from 'vuex'
+    //$("#side-menu").metisMenu();
     export default{
         data(){
             return {
                 msg: 'hello vue'
             }
         },
-        computed:{
-                ...mapGetters(['user'])
+        computed: {
+            ...mapGetters(['user'])
         }
     }
 
-    $("#side-menu").metisMenu();
+
 </script>

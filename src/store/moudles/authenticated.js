@@ -2,7 +2,6 @@
  * Created by user on 2017/1/12.
  */
 import axios from 'axios';
-import env from 'get-env';
 import baseUrl from '../../baseUrl'
 
 const state = {

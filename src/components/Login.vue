@@ -23,7 +23,7 @@
                             <div class="form-group">
                                 <div class="col-lg-offset-2 col-lg-4">
                                     <button type="submit" class="btn btn-lg btn-success btn-block"
-                                            :class="{disabled: !ready()}"
+                                            :disabled="!ready"
                                             @click.prevent="login">登入
                                     </button>
                                 </div>
@@ -50,6 +50,14 @@
                 }
             }
         },
+        computed: {
+            ready(){
+                if (this.user.account != "" && this.user.password != "")
+                    return true;
+                else
+                    return false;
+            }
+        },
         methods: {
             login(){
                 const url = baseUrl() + "/authenticate"
@@ -64,7 +72,7 @@
                             const ret = resp.data
                             if (ret.ok) {
                                 const user = ret.user
-                                this.$store.commit('updateAuthenticated', {authenticated: true, config:{}, user});
+                                this.$store.commit('updateAuthenticated', {authenticated: true, config: {}, user});
                                 this.$router.push({name: 'Dashboard'})
                             } else {
                                 alert(ret.msg)
@@ -75,9 +83,6 @@
                             alert(err)
                         }
                 )
-            },
-            ready(){
-                return this.user.account && this.user.password;
             }
         },
         components: {}
