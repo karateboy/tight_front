@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="ibox-content">
-            <form class="form-horizontal">
+            <div class="form-horizontal">
                 <div class="form-group has-feedback"><label class="col-lg-1 control-label">訂單號碼:</label>
                     <div class="col-lg-4"><input type="text" placeholder="訂單號碼" autofocus
                                                  class="form-control"
@@ -25,7 +25,8 @@
                 </div>
                 <div class="form-group"><label class="col-lg-1 control-label">預定出貨日:</label>
                     <div class='col-lg-4'>
-                        <datepicker v-model="order.expectedDeliverDateObj" language="zh" format="yyyy-MM-dd"></datepicker>
+                        <datepicker v-model="order.expectedDeliverDateObj" language="zh"
+                                    format="yyyy-MM-dd"></datepicker>
                     </div>
                 </div>
                 <div class="form-group"><label class="col-lg-1 control-label">訂單總數(雙):</label>
@@ -68,6 +69,43 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal inmodal" id="noticeModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span
+                                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">新增注意事項</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">部門:</label>
+                                        <div class="col-lg-9">
+                                            <div class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-outline btn-primary dim"
+                                                       v-for="dep in departments"
+                                                       @click="notice.department=dep.id">
+                                                    <input type="radio">{{ dep.name }} </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">注意事項:</label>
+                                        <div class="col-lg-9"><input type="text" class="form-control"
+                                                                     v-model="notice.msg"></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addNotice">
+                                    確認
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="col-lg-1 control-label">訂單細項:</label>
@@ -98,15 +136,43 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal">新增細項
                     </button>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">注意事項:</label>
+                    <div class="col-lg-4">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>部門</th>
+                                <th>注意事項</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(notice, idx) in order.notices">
+                                <td>{{displayDepartment(notice.department)}}</td>
+                                <td>{{notice.msg}}</td>
+                                <td>
+                                    <button class="btn btn-danger" @click="delNotice(idx)">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>刪除
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noticeModal">新增
+                    </button>
+                </div>
+
                 <div class="form-group">
                     <div class="col-lg-offset-1">
-                        <button class="btn btn-primary" :class="{disabled: !readyForSubmit}" type="submit"
-                                @click.prevent="newOrder">新增
+                        <button class="btn btn-primary" :class="{disabled: !readyForSubmit}"
+                                @click.prevent="newOrder" :disabled="!readyForSubmit">新增
                         </button>
                     </div>
                 </div>
 
-            </form>
+            </div>
         </div>
     </div>
 </template>
@@ -121,7 +187,7 @@
     //$("finalDeliverDate")
 
     export default{
-         data(){
+        data(){
             return {
                 order: {
                     _id: "",
@@ -138,13 +204,19 @@
                     active: true
                 },
                 detail: {
-                    color: "咖啡",
-                    size: "XL",
-                    dozenNumber:1,
+                    color: "",
+                    size: "",
+                    dozenNumber: 1,
                     quantity: 12,
                     workCardIDs: [],
                     finishedWorkCards: [],
                     complete: false
+                },
+                departmentList: [],
+                departmentFetched: false,
+                notice: {
+                    department: "",
+                    msg: ""
                 },
                 isOrderIdOkay: true
             }
@@ -161,6 +233,20 @@
                     sum += detail.quantity
                 }
                 return sum;
+            },
+            departments(){
+                if (!this.departmentFetched) {
+                    axios.get("/Department").then((resp) => {
+                        const ret = resp.data
+                        this.departmentList.splice(0, this.departmentList.length)
+                        for(let dep of ret){
+                            this.departmentList.push(dep)
+                        }
+                        this.departmentFetched = true
+                    })
+                }
+
+                return this.departmentList
             },
             readyForSubmit(){
                 if (this.order._id === ""
@@ -179,7 +265,7 @@
             "order._id": function (newId) {
                 if (newId.trim() != "") {
                     const url = baseUrl() + "/checkOrderId/" + newId
-                    axios.get(url).then(
+                    axios.get(url, {withCredentials: true}).then(
                             (resp) => {
                                 const data = resp.data
                                 this.isOrderIdOkay = data.ok
@@ -197,11 +283,10 @@
             },
             newOrder(){
                 this.prepareOrder();
-                const url = baseUrl() + "/Order"
-                axios.post(url, this.order).then(
+                axios.post("/Order", this.order).then(
                         (resp) => {
                             const data = resp.data
-                            if (data.ok){
+                            if (data.ok) {
                                 alert("成功")
                                 this.$router.push({name: 'MyOrder'})
                             }
@@ -219,6 +304,21 @@
             },
             delDetail(idx){
                 this.order.details.splice(idx, 1)
+            },
+            addNotice(){
+                let copy =  Object.assign({}, this.notice)
+                this.order.notices.push(copy)
+            },
+            delNotice(idx){
+                this.order.notices.splice(idx, 1)
+            },
+            displayDepartment(id){
+                for(let dep of this.departmentList){
+                    if(dep.id == id)
+                        return dep.name
+                }
+
+                return ""
             }
 
         },

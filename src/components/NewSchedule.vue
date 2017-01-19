@@ -1,7 +1,7 @@
 <template>
     <div v-if="myDyeCardSpecList.length != 0">
         <br>
-        <form class="form-horizontal">
+        <div class="form-horizontal">
             <div class="form-group">
                 <label class="col-lg-1 control-label">顏色:</label>
                 <div class="col-lg-11">
@@ -55,7 +55,7 @@
                     <button class="col-lg-offset-1 btn btn-primary" @click="schedule">排定生產</button>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
     <div v-else>沒有可以排定的工作</div>
 
@@ -65,7 +65,6 @@
 </style>
 <script>
     import axios from 'axios'
-    import baseUrl from '../baseUrl'
     import moment from 'moment'
 
     export default{
@@ -79,8 +78,7 @@
         computed: {
             myDyeCardSpecList(){
                 if (!this.fetched) {
-                    const url = baseUrl() + "/DyeCardSpec"
-                    axios.get(url).then(
+                    axios.get("/DyeCardSpec").then(
                             (resp) => {
                                 const ret = resp.data
                                 const len = this.dyeCardSpecList.length
@@ -138,7 +136,7 @@
                         workCards.push(workCard)
                     }
                 }
-                const url = baseUrl() + "/ScheduleDyeWork"
+                const url = "/ScheduleDyeWork"
                 axios.post(url, {dyeCard, workCards}).then(
                         (resp) => {
                             const ret = resp.data

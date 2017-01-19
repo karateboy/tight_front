@@ -19,13 +19,14 @@
                 <td>
                     <button class="btn btn-info" @click="displayOrder(index)">顯示細節</button>
                     <button class="btn btn-info" @click="copyOrder(index)">複製訂單</button>
+                    <button class="btn btn-info" @click="closeOrder(index)">結案</button>
                 </td>
             </tr>
             </tbody>
         </table>
         <hr>
         <div v-if="displayDetail">
-            <order-detail :my-order="order"></order-detail>
+            <order-detail></order-detail>
         </div>
     </div>
 </template>
@@ -35,6 +36,7 @@
 
 </style>
 <script>
+    import {mapActions} from 'vuex'
     import orderDetail from './OrderDetail.vue'
     import moment from 'moment'
     export default{
@@ -56,6 +58,7 @@
             }
         },
         methods: {
+                ...mapActions(['displayOrder']),
             displayDate(millis){
                 const mm = moment(millis).locale("zh_tw")
                 const dateStr = mm.format('YYYY-MM-DD')
@@ -63,11 +66,15 @@
                 return dateStr + " (" + afterStr + ")";
             },
             displayOrder(idx){
-                this.order = this.myList[idx]
+                this.$store.dispatch('displayOrder', this.myList[idx])
+                //this.order = this.myList[idx]
                 this.displayDetail = true;
             },
             copyOrder(idx){
-
+                alert("複製訂單")
+            },
+            closeOrder(idx){
+                alert("結束訂單")
             }
         },
         components: {

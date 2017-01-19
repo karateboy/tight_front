@@ -38,20 +38,33 @@
 <style scoped>
 </style>
 <script>
-    import baseUrl from '../baseUrl'
     import axios from 'axios'
 
     export default{
         data(){
+            axios.get("/testAuthenticated").then(
+                (resp) => {
+                    const ret = resp.data
+                    if(ret.ok){
+                        const user = ret.user
+                        this.$store.commit('updateAuthenticated', {authenticated: true, user});
+                        this.$router.push({name: 'Dashboard'})
+                    }
+                }
+            ).catch((err) => {
+                // simply ignore it...
+            })
+
             return {
                 user: {
                     account: "",
                     password: ""
-                }
+                },
             }
         },
         computed: {
             ready(){
+
                 if (this.user.account != "" && this.user.password != "")
                     return true;
                 else
@@ -60,19 +73,16 @@
         },
         methods: {
             login(){
-                const url = baseUrl() + "/authenticate"
+                const url = "/authenticate"
 
-                const resultP = axios.post(url, this.user, {
-                    url: "/",
-                    withCredentials: true
-                })
+                const resultP = axios.post(url, this.user)
 
                 resultP.then(
                         (resp) => {
                             const ret = resp.data
                             if (ret.ok) {
                                 const user = ret.user
-                                this.$store.commit('updateAuthenticated', {authenticated: true, config: {}, user});
+                                this.$store.commit('updateAuthenticated', {authenticated: true, user});
                                 this.$router.push({name: 'Dashboard'})
                             } else {
                                 alert(ret.msg)

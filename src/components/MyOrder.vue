@@ -7,6 +7,8 @@
     body{
     }
 
+
+
 </style>
 <script>
     import OrderList from './OrderList.vue'
@@ -26,7 +28,7 @@
             ...mapGetters(['user']),
             myOrder(){
                 if (!this.fetchOrder) {
-                    const url = baseUrl() + "/MyActiveOrder/" + this.user._id;
+                    const url = "/MyActiveOrder/" + this.user._id;
                     axios.get(url).then(
                             (resp) => {
                                 const ret = resp.data
@@ -37,7 +39,7 @@
                                 }
                             }
                     ).catch((err) => {
-                        console.log(err)
+                        alert(err)
                     })
                     this.fetchOrder = true
                 }

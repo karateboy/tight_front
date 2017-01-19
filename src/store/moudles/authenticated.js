@@ -14,18 +14,11 @@ const state = {
         isAdmin: false,
         groupId: ""
     },
-    config: {
-        url:"/",
-        withCredentials: true
-    }
 }
 
 const getters = {
     isAuthenticated: state =>{
         return state.authenticated;
-    },
-    getConfig: state =>{
-        return state.config;
     },
     user: state =>{
         return state.user;
@@ -43,21 +36,6 @@ const mutations = {
 const actions = {
     logout : ({commit}) => {
         commit('updateAuthenticated', {authenticated:false, config:{}});
-    },
-    testAuthenticated: ({commit, state}) =>{
-        var url = baseUrl() + "/testAuthenticated"
-
-        console.log(state.config)
-
-        const resultP = axios.get(url)
-        resultP.then((resp)=>{
-            const ret = resp.data
-            if(ret.ok)
-                commit('updateAuthenticated', {authenticated:false, config})
-        }).catch((err)=>
-            console.log("session is not there...")
-        )
-
     }
 }
 
