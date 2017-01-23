@@ -1,0 +1,130 @@
+<template>
+    <div class="form-horizontal">
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <td>染色人員:</td>
+                <td>染色日期:</td>
+                <td>染鍋:</td>
+                <td>襪重:</td>
+            </tr>
+            <tr>
+                <td rowspan="2">精煉程序(kg)</td>
+                <td rowspan="2">精煉劑:</td>
+                <td rowspan="2">乳化劑:</td>
+                <td>溫度:</td>
+            </tr>
+            <tr>
+                <td>時間:</td>
+            </tr>
+
+            <tr>
+                <td rowspan="3">染色藥劑(g)</td>
+                <td>Y:</td>
+                <td>螢光劑:</td>
+                <td rowspan="3"></td>
+            </tr>
+            <tr>
+                <td>R:</td>
+                <td>增白劑</td>
+            </tr>
+            <tr>
+                <td>B:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td rowspan="4">染色程序(kg)</td>
+                <td>均染劑:</td>
+                <td>冰醋酸:</td>
+                <td>溫度</td>
+            </tr>
+            <tr>
+                <td>醋銨:</td>
+                <td></td>
+                <td>時間</td>
+            </tr>
+            <tr>
+                <td>氨水:</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>起染pH:</td>
+                <td></td>
+                <td>染終pH:</td>
+            </tr>
+            <tr>
+                <td rowspan="3">後處理程序(kg)</td>
+                <td>固色劑:</td>
+                <td>陽離子柔軟劑:</td>
+                <td>時間:</td>
+            </tr>
+            <tr>
+                <td>冰醋酸:</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>矽利康:</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td rowspan="2">重洗程序(kg)</td>
+                <td rowspan="2">精煉劑:</td>
+                <td rowspan="2">乳化劑:</td>
+                <td>溫度:</td>
+            </tr>
+            <tr>
+                <td>時間:</td>
+            </tr>
+            <tr>
+                <td>烘乾</td>
+                <td>溫度:</td>
+                <td>時間:</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+        <hr>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>尺寸</th>
+                <th>染前長度(cm)</th>
+                <th>染後長度(cm)</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</template>
+<style>
+    body{
+        background-color:#ff0000;
+    }
+
+
+</style>
+<script>
+    export default{
+        props: {
+            edit: {
+                type: Boolean,
+                default: true
+            },
+            dyeCard: {
+                type: Object,
+                required: true
+            }
+        },
+        data(){
+            return {}
+        },
+        methods: {
+            update(){
+
+            }
+        },
+        components: {}
+    }
+</script>

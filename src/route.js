@@ -6,8 +6,9 @@ import MyOrder from "./components/MyOrder.vue"
 import QueryOrder from "./components/QueryOrder.vue"
 import Schedule from "./components/Schedule.vue"
 import NewSchedule from "./components/NewSchedule.vue"
-import DyeCardList from "./components/DyeCardList.vue"
+import ActiveDyeCardList from "./components/ActiveDyeCardList.vue"
 import WorkCardView from "./components/WorkCardView.vue"
+import UpdateDyeCard from './components/UpdateDyeCard.vue'
 
 export const routes = [
     {path: '/', component: Dashboard, name: 'Dashboard'},
@@ -24,9 +25,10 @@ export const routes = [
         path: '/Schedule', component: Schedule, name: 'Schedule',
         children: [
             {path: 'New', component: NewSchedule},
-            {path: 'DyeCardList', component: DyeCardList},
+            {path: 'ActiveDyeCardList', component: ActiveDyeCardList},
             {path: 'WorkCard', component: WorkCardView}
         ]
     },
+    {path:'/Dyeing', component: UpdateDyeCard, name: 'UpdateDyeCard'},
     {path: '*', redirect: '/'}
 ];

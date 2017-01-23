@@ -4,7 +4,7 @@
             <ul class="nav nav-tabs">
                 <router-link to='/Schedule/New' tag='li' role="presentation" active-class='active'><a>排定工作</a>
                 </router-link>
-                <router-link to='/Schedule/DyeCardList' tag='li' role="presentation" active-class='active'><a>漂染單</a>
+                <router-link to='/Schedule/ActiveDyeCardList' tag='li' role="presentation" active-class='active'><a>漂染單</a>
                 </router-link>
                 <router-link to='/Schedule/WorkCardList' tag='li' role="presentation" active-class='active'><a>流動工作卡</a>
                 </router-link>

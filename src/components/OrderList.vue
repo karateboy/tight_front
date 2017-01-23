@@ -7,20 +7,18 @@
                 <th>訂單編號</th>
                 <th>客戶編號</th>
                 <th>預定出貨日</th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="(order, index) in myList">
-                <td>{{ index+1 }}</td>
-                <td>{{ order._id}}</td>
-                <td>{{ order.customerId}}</td>
-                <td>{{ displayDate(order.expectedDeliverDate) }}</td>
                 <td>
                     <button class="btn btn-info" @click="displayOrder(index)">顯示細節</button>
                     <button class="btn btn-info" @click="copyOrder(index)">複製訂單</button>
                     <button class="btn btn-info" @click="closeOrder(index)">結案</button>
                 </td>
+                <td>{{ order._id}}</td>
+                <td>{{ order.customerId}}</td>
+                <td>{{ displayDate(order.expectedDeliverDate) }}</td>
             </tr>
             </tbody>
         </table>
@@ -60,7 +58,7 @@
         methods: {
                 ...mapActions(['displayOrder']),
             displayDate(millis){
-                const mm = moment(millis).locale("zh_tw")
+                const mm = moment(millis)
                 const dateStr = mm.format('YYYY-MM-DD')
                 const afterStr = mm.fromNow()
                 return dateStr + " (" + afterStr + ")";

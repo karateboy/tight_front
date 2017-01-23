@@ -37,14 +37,14 @@
                 <ul class="nav nav-second-level collapse">
                     <router-link to='/Schedule/New' tag='li' role="presentation" active-class='active'><a>排定工作</a>
                     </router-link>
-                    <router-link to='/Schedule/DyeCardList' tag='li' role="presentation" active-class='active'><a>漂染單</a>
+                    <router-link to='/Schedule/ActiveDyeCardList' tag='li' role="presentation" active-class='active'><a>漂染單</a>
                     </router-link>
                     <router-link to='/Schedule/WorkCard' tag='li' role="presentation" active-class='active'><a>流動工作卡</a>
                     </router-link>
                 </ul>
             </li>
-            <router-link tag="li" to="/updateStatus" active-class="active"><a><i class="fa fa-th-large"></i> <span
-                    class="nav-label">更新進度</span> </a></router-link>
+            <router-link tag="li" :to="{name:'UpdateDyeCard'}" active-class="active"><a><i class="fa fa-th-large"></i> <span
+                    class="nav-label">漂染包襪明細表</span> </a></router-link>
         </ul>
     </div>
 </template>
