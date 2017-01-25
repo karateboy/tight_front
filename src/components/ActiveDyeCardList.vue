@@ -1,6 +1,6 @@
 <template>
     <div>
-        處理中的漂染卡
+        <br>
         <dye-card-list :cardList='dyeCardList'></dye-card-list>
     </div>
 </template>

@@ -6,7 +6,7 @@
                 </router-link>
                 <router-link to='/Schedule/ActiveDyeCardList' tag='li' role="presentation" active-class='active'><a>漂染單</a>
                 </router-link>
-                <router-link to='/Schedule/WorkCardList' tag='li' role="presentation" active-class='active'><a>流動工作卡</a>
+                <router-link to='/Schedule/WorkCard' tag='li' role="presentation" active-class='active'><a>流動工作卡</a>
                 </router-link>
             </ul>
             <router-view></router-view>

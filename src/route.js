@@ -9,14 +9,19 @@ import NewSchedule from "./components/NewSchedule.vue"
 import ActiveDyeCardList from "./components/ActiveDyeCardList.vue"
 import WorkCardView from "./components/WorkCardView.vue"
 import UpdateDyeCard from './components/UpdateDyeCard.vue'
-
+import UpdateStylingCard from './components/UpdateStylingCard.vue'
+import UpdateTidyCard from './components/UpdateTidyCard.vue'
+import SystemManagement from './components/SystemManagement.vue'
+import AddUser from './components/AddUser.vue'
+import DelUser from './components/DelUser.vue'
+import UpdateUser from './components/UpdateUser.vue'
 export const routes = [
     {path: '/', component: Dashboard, name: 'Dashboard'},
     {path: '/Login', component: Login, name: 'Login'},
     {
         path: '/Order', component: Order, name: 'Order',
         children: [
-            {path: 'New', component: NewOrder},
+            {path: 'New', component: NewOrder, name: 'NewOrder'},
             {path: 'Mine', component: MyOrder, name: 'MyOrder'},
             {path: 'Query', component: QueryOrder}
         ]
@@ -25,10 +30,20 @@ export const routes = [
         path: '/Schedule', component: Schedule, name: 'Schedule',
         children: [
             {path: 'New', component: NewSchedule},
-            {path: 'ActiveDyeCardList', component: ActiveDyeCardList},
+            {path: 'ActiveDyeCardList', component: ActiveDyeCardList, name: 'ActiveDyeCardList'},
             {path: 'WorkCard', component: WorkCardView}
         ]
     },
-    {path:'/Dyeing', component: UpdateDyeCard, name: 'UpdateDyeCard'},
+    {path: '/Dyeing', component: UpdateDyeCard, name: 'UpdateDyeCard'},
+    {path: '/Styling', component: UpdateStylingCard, name: 'UpdateStylingCard'},
+    {path: '/TidyCard/:phase', component: UpdateTidyCard, name: 'UpdateTidyCard'},
+    {
+        path: '/System', component: SystemManagement, name: 'SystemManagement',
+        children: [
+            {path: 'AddUser', component:AddUser, name:'AddUser' },
+            {path: 'DelUser', component:DelUser, name:'DelUser' },
+            {path: 'UpdateUser', component:UpdateUser, name:'UpdateUser' },
+        ]
+    },
     {path: '*', redirect: '/'}
 ];

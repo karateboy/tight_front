@@ -6,7 +6,7 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong
                                     class="font-bold">{{ user.name }}</strong>
-                             </span> <span class="text-muted text-xs block">{{ user.groupId}} <b
+                             </span> <span class="text-muted text-xs block">{{ groupInfoMap[user.groupId]}} <b
                                     class="caret"></b></span> </span> </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="#">Logout</a></li>
@@ -43,8 +43,64 @@
                     </router-link>
                 </ul>
             </li>
-            <router-link tag="li" :to="{name:'UpdateDyeCard'}" active-class="active"><a><i class="fa fa-th-large"></i> <span
-                    class="nav-label">漂染包襪明細表</span> </a></router-link>
+            <router-link tag="li" :to="{name:'UpdateDyeCard'}" active-class="active"><a><i class="fa fa-th-large"></i>
+                <span
+                        class="nav-label">漂染課</span> </a></router-link>
+
+            <router-link tag="li" :to="{name:'UpdateStylingCard'}" active-class="active">
+                <a><i class="fa fa-th-large"></i>
+                    <span class="nav-label">定型課</span> </a></router-link>
+            <li>
+                <a><i class="fa fa-th-large"></i> <span class="nav-label">整理課</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <router-link tag="li"
+                                 :to="{name:'UpdateTidyCard',
+                                 params:{ phase:'檢襪'}}" active-class="active">
+                        <a><i class="fa fa-th-large"></i>
+                            <span class="nav-label">檢襪</span> </a></router-link>
+                    <router-link tag="li"
+                                 :to="{name:'UpdateTidyCard',
+                                 params:{ phase:'車洗標'}}" active-class="active">
+                        <a><i class="fa fa-th-large"></i>
+                            <span class="nav-label">車洗標</span> </a></router-link>
+                    <router-link tag="li"
+                                 :to="{name:'UpdateTidyCard',
+                                 params:{ phase:'剪線頭'}}" active-class="active">
+                        <a><i class="fa fa-th-large"></i>
+                            <span class="nav-label">剪線頭</span> </a></router-link>
+                    <router-link tag="li"
+                                 :to="{name:'UpdateTidyCard',
+                                 params:{ phase:'整理包裝'}}" active-class="active">
+                        <a><i class="fa fa-th-large"></i>
+                            <span class="nav-label">整理包裝</span> </a></router-link>
+                    <router-link tag="li"
+                                 :to="{name:'UpdateTidyCard',
+                                 params:{ phase:'成品倉庫'}}" active-class="active">
+                        <a><i class="fa fa-th-large"></i>
+                            <span class="nav-label">成品倉庫</span> </a></router-link>
+                </ul>
+            </li>
+            <li>
+                <a><i class="fa fa-th-large"></i> <span class="nav-label">系統管理</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <router-link tag="li"
+                                 :to="{name:'AddUser'}" active-class="active">
+                        <a><i class="fa fa-th-large"></i>
+                            <span class="nav-label">新增使用者</span> </a></router-link>
+
+                    <router-link tag="li"
+                                 :to="{name:'DelUser'}" active-class="active">
+                        <a><i class="fa fa-th-large"></i>
+                            <span class="nav-label">刪除使用者</span> </a></router-link>
+
+                    <router-link tag="li"
+                                 :to="{name:'UpdateUser'}" active-class="active">
+                        <a><i class="fa fa-th-large"></i>
+                            <span class="nav-label">更新使用者</span> </a></router-link>
+                </ul>
+            </li>
         </ul>
     </div>
 </template>
@@ -53,11 +109,17 @@
 </style>
 <script>
     import {mapGetters} from 'vuex'
-    //$("#side-menu").metisMenu();
+    import axios from 'axios'
     export default{
         data(){
+            axios.get('/Group').then((resp)=>{
+                const ret = resp.data
+                for(let groupInfo of ret){
+                    this.groupInfoMap[groupInfo.id] = groupInfo.name
+                }
+            })
             return {
-                msg: 'hello vue'
+                groupInfoMap:{}
             }
         },
         computed: {

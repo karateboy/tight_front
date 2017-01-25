@@ -11,8 +11,8 @@
             </div>
         </form>
         <br>
-        <div v-if='invalidId'>
-            <dye-card-detail  :edit="true" :dyeCard=></dye-card-detail>
+        <div v-if='displayCard'>
+            <dye-card-detail  :edit="true" :dyeCard='dyeCard' @updated='cleanup'></dye-card-detail>
         </div>
     </div>
 </template>
@@ -25,16 +25,36 @@
 </style>
 <script>
     import DyeCardDetail from './DyeCardDetail.vue'
+    import axios from 'axios'
+
     export default{
         data(){
             return {
                 id: "",
-                invalidId: false
+                invalidId: false,
+                displayCard: false,
+                dyeCard: {}
             }
         },
         methods: {
             query(){
-                alert("query..." + this.id)
+                axios.get("/DyeCard/"+ this.id).then((resp)=>{
+                    const ret = resp.data
+                    if(resp.status == 200){
+                        this.dyeCard = ret
+                        this.displayCard = true
+                    }else{
+                        alert("找不到漂染卡紀錄:" + resp.statusText)
+                        this.id = ""
+                    }
+                }).catch((err)=>{
+                    alert(err)
+                })
+
+            },
+            cleanup(){
+                this.id = ""
+                this.displayCard = false
             }
         },
         components: {

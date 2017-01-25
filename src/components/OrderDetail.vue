@@ -5,7 +5,7 @@
                 <div class="form-group has-feedback"><label class="col-lg-1 control-label">訂單號碼:</label>
                     <div class="col-lg-4"><input type="text" placeholder="訂單號碼" autofocus
                                                  class="form-control"
-                                                 v-model="order._id">
+                                                 v-model="order._id" :readonly='!isNewOrder'>
                         <span v-if="isOrderIdOkay" class="glyphicon glyphicon-ok form-control-feedback info"></span>
                         <span v-else class="glyphicon glyphicon-remove form-control-feedback"></span>
                         <span v-if="!isOrderIdOkay" class="help-block">無效或重複的訂單號碼</span>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="form-group"><label class="col-lg-1 control-label">預定出貨日:</label>
                     <div class='col-lg-4'>
-                        <datepicker v-model="order.expectedDeliverDateObj" language="zh"
+                        <datepicker v-model="expectedDeliverDate" language="zh"
                                     format="yyyy-MM-dd"></datepicker>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                 <div class="form-group">
                     <label class="col-lg-1 control-label">訂單細項:</label>
                     <div class="col-lg-4">
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-bordered">
                             <thead>
                             <tr>
                                 <th>顏色</th>
@@ -140,7 +140,7 @@
                 <div class="form-group">
                     <label class="col-lg-1 control-label">注意事項:</label>
                     <div class="col-lg-4">
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-bordered">
                             <thead>
                             <tr>
                                 <th>部門</th>
@@ -164,13 +164,125 @@
                     </button>
                 </div>
 
+                <div class="panel panel-success ">
+                    <div class="panel-heading">採購包裝材料</div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label">包裝:</label>
+                                <div class="col-lg-4">
+                                    <input type='checkbox' v-model='order.packageInfo.packageOption[0]'>環帶
+                                    <input type='checkbox' v-model='order.packageInfo.packageOption[1]'>紙卡
+                                    <input type='checkbox' v-model='order.packageInfo.packageOption[2]'>紙盒
+                                    <input type='checkbox' v-model='order.packageInfo.packageOption[3]'>掛卡
+                                    <input type='checkbox' v-model='order.packageInfo.packageOption[4]'>掛盒
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label">包裝備註:</label>
+                                <div class="col-lg-4">
+                                    <textarea class='form-control' v-model="order.packageInfo.packageNote"></textarea>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label">貼標:</label>
+                                <div class="col-lg-4">
+                                    <input type='checkbox' v-model='order.packageInfo.labelOption[0]'>成份標+Made in Taiwan
+                                    <input type='checkbox' v-model='order.packageInfo.labelOption[1]'>價標
+                                    <input type='checkbox' v-model='order.packageInfo.labelOption[2]'>條碼標
+                                    <input type='checkbox' v-model='order.packageInfo.labelOption[3]'>型號標
+                                    <input type='checkbox' v-model='order.packageInfo.labelOption[4]'>Size標
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label"></label>
+                                <div class="col-lg-4">
+                                    <input type='checkbox' v-model='order.packageInfo.cardOption[0]'>撐卡
+                                    <input type='text' v-model='order.packageInfo.cardNote[0]'>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label"></label>
+                                <div class="col-lg-4">
+                                    <input type='checkbox' v-model='order.packageInfo.cardOption[1]'>襯卡
+                                    <input type='text' v-model='order.packageInfo.cardNote[1]'>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label"></label>
+                                <div class="col-lg-4">
+                                    <input type='checkbox' v-model='order.packageInfo.cardOption[2]'>掛勾
+                                    <input type='text' v-model='order.packageInfo.cardNote[2]'>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label"></label>
+                                <div class="col-lg-4">
+                                    <input type='checkbox' v-model='order.packageInfo.cardOption[3]'>洗標
+                                    <input type='text' v-model='order.packageInfo.cardNote[3]'>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label">塑膠袋:</label>
+                                <div class="col-lg-6">
+                                    <input type='checkbox' v-model='order.packageInfo.bagOption[0]'>單入OPP
+                                    <input type='checkbox' v-model='order.packageInfo.bagOption[1]'>單入PVC
+                                    <input type='text' placeholder="PCV備註" v-model='order.packageInfo.pvcNote'>
+                                    <input type='checkbox' v-model='order.packageInfo.bagOption[2]'>自黏
+                                    <input type='checkbox' v-model='order.packageInfo.bagOption[3]'>高週波
+                                    <input type='checkbox' v-model='order.packageInfo.bagOption[4]'>彩印
+                                    <input type='checkbox' v-model='order.packageInfo.bagOption[5]'>掛孔
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label"></label>
+                                <div class="col-lg-4">
+                                    <input type='number' v-model='order.packageInfo.numInBag'>雙入大盒
+                                    <input type='text' v-model='order.packageInfo.bagNote'>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label">外銷箱:</label>
+                                <div class="col-lg-6">
+                                    <input type='checkbox' v-model='order.packageInfo.exportBoxOption[0]'>內盒
+                                    <input type='text' v-model='order.packageInfo.exportBoxNote[0]'>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label"></label>
+                                <div class="col-lg-6">
+                                    <input type='checkbox' v-model='order.packageInfo.exportBoxOption[1]'>外箱
+                                    <input type='text' v-model='order.packageInfo.exportBoxNote[1]'>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label">嘜頭:</label>
+                                <div class="col-lg-6">
+                                    <textarea rows="5" cols="30" v-model='order.packageInfo.ShippingMark'></textarea>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-lg-1 control-label">備註欄:(生管評估後註記)</label>
+                                <div class="col-lg-6">
+                                    <textarea rows="5" cols="30" v-model='order.packageInfo.extraNote'></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
-                    <div class="col-lg-offset-1">
+                    <div v-if='isNewOrder' class="col-lg-offset-1">
                         <button class="btn btn-primary" :class="{disabled: !readyForSubmit}"
-                                @click.prevent="newOrder" :disabled="!readyForSubmit">新增
+                                @click.prevent="upsertOrder" :disabled="!readyForSubmit">新增
+                        </button>
+                    </div>
+                    <div v-else class="col-lg-offset-1">
+                        <button class="btn btn-primary" :class="{disabled: !readyForSubmit}"
+                                @click.prevent="upsertOrder" :disabled="!readyForSubmit">更新
                         </button>
                     </div>
                 </div>
+
 
             </div>
         </div>
@@ -181,11 +293,12 @@
     body{
         background-color:#0000ff;
     }
+
+
 </style>
 <script>
     import {mapGetters} from 'vuex'
     import axios from 'axios'
-
     import Datepicker from 'vuejs-datepicker'
 
 
@@ -211,7 +324,7 @@
             }
         },
         computed: {
-            ...mapGetters(['user', 'order']),
+            ...mapGetters(['user', 'order', 'isNewOrder']),
             salesName(){
                 return "";
             },
@@ -227,7 +340,7 @@
                     axios.get("/Department").then((resp) => {
                         const ret = resp.data
                         this.departmentList.splice(0, this.departmentList.length)
-                        for(let dep of ret){
+                        for (let dep of ret) {
                             this.departmentList.push(dep)
                         }
                         this.departmentFetched = true
@@ -247,10 +360,22 @@
                     return false;
                 else
                     return true;
+            },
+            expectedDeliverDate: {
+                get: function () {
+                    return new Date(this.order.expectedDeliverDate)
+                },
+                // setter
+                set: function (newValue) {
+                    this.order.expectedDeliverDate = newValue.getTime()
+                }
             }
         },
         watch: {
             "order._id": function (newId) {
+                if (!this.isNewOrder)
+                    return
+
                 if (newId.trim() != "") {
                     const url = "/checkOrderId/" + newId
                     axios.get(url).then(
@@ -265,11 +390,10 @@
         },
         methods: {
             prepareOrder(){
-                this.order.salesId = this.user._id;
-                this.order.expectedDeliverDate = this.order.expectedDeliverDateObj.getTime()
-                this.order.date = new Date().getTime()
+                if (!this.order.salesId)
+                    this.order.salesId = this.user._id;
             },
-            newOrder(){
+            upsertOrder(){
                 this.prepareOrder();
                 axios.post("/Order", this.order).then(
                         (resp) => {
@@ -294,15 +418,15 @@
                 this.order.details.splice(idx, 1)
             },
             addNotice(){
-                let copy =  Object.assign({}, this.notice)
+                let copy = Object.assign({}, this.notice)
                 this.order.notices.push(copy)
             },
             delNotice(idx){
                 this.order.notices.splice(idx, 1)
             },
             displayDepartment(id){
-                for(let dep of this.departmentList){
-                    if(dep.id == id)
+                for (let dep of this.departmentList) {
+                    if (dep.id == id)
                         return dep.name
                 }
 

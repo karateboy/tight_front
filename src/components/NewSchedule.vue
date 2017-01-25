@@ -57,7 +57,11 @@
             </div>
         </div>
     </div>
-    <div v-else>沒有可以排定的工作</div>
+    <div v-else>
+        <div class="alert alert-info" role="alert">
+            <strong>沒有可以排定的工作</strong>
+        </div>
+    </div>
 
 </template>
 <style>
@@ -140,8 +144,10 @@
                 axios.post(url, {dyeCard, workCards}).then(
                         (resp) => {
                             const ret = resp.data
-                            if (ret.ok)
+                            if (ret.ok){
                                 alert("成功")
+                                this.$router.push({name: 'ActiveDyeCardList'})
+                            }
                         }
                 ).catch(
                         (err) => {

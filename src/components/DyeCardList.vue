@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table">
+        <table class="table  table-bordered">
             <thead>
             <tr>
                 <th></th>
@@ -16,9 +16,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(card, idx) in cardList">
+            <tr v-for="(card, idx) in cardList" :class='{success: selectedIdx==idx}'>
                 <td>
-                    <button class="btn btn-info" @click="displayDyeCardDetail(card)">細節</button>
+                    <button class="btn btn-info" @click="displayDyeCardDetail(card, idx)">細節</button>
                     <button class="btn btn-info" @click="dyeCardPDF(card)">列印</button>
                 </td>
                 <td>{{card._id}}</td>
@@ -35,7 +35,7 @@
         </table>
         <hr/>
         <div v-if="displayDetail">
-            <dye-card-detail :dyeCard="targetDyeCard"></dye-card-detail>
+            <dye-card-detail :dyeCard="targetDyeCard" :edit='false'></dye-card-detail>
         </div>
     </div>
 </template>
@@ -55,6 +55,7 @@
         data(){
             return {
                 displayDetail: false,
+                selectedIdx:-1,
                 targetDyeCard: {}
             }
         },
@@ -105,14 +106,15 @@
                 for (let workCard of dyeCard.workCards) {
                     total += workCard.quantity
                 }
-                return total
+                return total/12
             },
-            displayDyeCardDetail(dyeCard){
+            displayDyeCardDetail(dyeCard, idx){
+                this.selectedIdx = idx
                 this.displayDetail = true
                 this.targetDyeCard = dyeCard
             },
             dyeCardPDF(dyeCard){
-                let url = baseUrl() + "/DyeCardPDF/" + dyeCard._id + ".pdf"
+                let url = baseUrl() + "/DyeCardPDF/" + dyeCard._id
                 window.open(url)
             }
         },

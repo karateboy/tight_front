@@ -1,0 +1,68 @@
+<template>
+    <div class="ibox-content">
+        <form class="form-horizontal" @submit.prevent="query">
+            <div class="form-group has-feedback"><label class="col-lg-3 control-label">流動工作卡號:</label>
+                <div class="col-lg-5"><input type="text" placeholder="掃描條碼" autofocus
+                                             class="form-control"
+                                             v-model="workCardID">
+                </div>
+            </div>
+        </form>
+        <br>
+        <div v-if='displayCard'>
+            <styling-card :stylingCard='stylingCard' :workCardID='workCardID' v-on:updated='cleanup'></styling-card>
+        </div>
+    </div>
+</template>
+<style scoped>
+    body{
+        background-color:#ff0000;
+    }
+
+
+</style>
+<script>
+    import axios from 'axios'
+    import StylingCard from './StylingCard.vue'
+
+    export default{
+        data(){
+            return {
+                workCardID: "",
+                displayCard: false,
+                stylingCard: {
+                    date:0
+                }
+            }
+        },
+        methods: {
+            query(){
+                console.log(this.workCardID)
+                axios.get("/StylingCard/" + this.workCardID).then((resp) => {
+                    const ret = resp.data
+                    if (resp.status == 200) {
+                        if(ret === null)
+                            this.stylingCard = {
+                                date:0
+                            }
+                        else
+                            this.stylingCard = ret
+                        this.displayCard = true
+                    } else {
+                        alert("找不到流動工作卡:")
+                        this.workCardID = ""
+                    }
+                }).catch((err) => {
+                    alert(err)
+                })
+            },
+            cleanup(){
+                this.displayCard = false
+                this.workCardID = ""
+            }
+        },
+        components: {
+            StylingCard
+        }
+    }
+</script>

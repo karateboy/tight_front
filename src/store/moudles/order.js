@@ -5,43 +5,71 @@ const emptyOrder = {
     _id: "",
     salesId: "",
     name: "",
-    expectedDeliverDateObj: new Date(),
-    expectedDeliverDate: 0,
+    expectedDeliverDate: new Date().getTime(),
     factoryId: "",
     customerId: "",
     brand: "",
     date: 0,
     details: [],
     notices: [],
+    packageInfo: {
+        packageOption: [false, false, false, false, false],
+        packageNote: "",
+        labelOption: [false, false, false, false, true],
+        labelNote: "",
+        cardOption: [false, false, false, false],
+        cardNote: ['','','',''],
+        bagOption: [false, false, false, false, false, false],
+        pvcNote: "",
+        numInBag: 3,
+        bagNote: "",
+        exportBoxOption: [true, true],
+        exportBoxNote: ['',''],
+        ShippingMark: "",
+        extraNote: ""
+    },
     active: true
 }
 
 const state = {
-    order_op_mode:"new",
-    order: Object.assign({}, emptyOrder)
+    isNew:true,
+    order: JSON.parse(JSON.stringify( emptyOrder))
 }
 
 const getters = {
     order: state =>{
         return state.order;
+    },
+    isNewOrder: state =>{
+        return state.isNew
     }
 }
 
 const mutations = {
     updateOrder: (state, payload) => {
         state.order = payload.order
-        state.order_op_mode = payload.order_op_mode
+        state.isNew = payload.isNew
     }
 }
 
 const actions = {
     newOrder : ({commit}) => {
-        const newOrder = Object.assign({}, emptyOrder)
-        newOrder.expectedDeliverDateObj = new Date()
-        commit('updateOrder', {order:newOrder, order_op_mode:"new"});
+        const newOrder = JSON.parse(JSON.stringify( emptyOrder))
+        commit('updateOrder', {order:newOrder, isNew:true});
     },
-    displayOrder : ({commit}, myOrder) =>{
-        commit('updateOrder', {order:myOrder, order_op_mode:"display"})
+    showOrder : ({commit}, myOrder) =>{
+        commit('updateOrder', {order:myOrder, isNew:false})
+    },
+    cloneOrder : ({commit}, myOrder) =>{
+        const cloneOrder = JSON.parse(JSON.stringify(myOrder))
+        cloneOrder._id = ""
+        for(let detail of cloneOrder.details){
+            detail.workCardIDs = []
+            detail.finishedWorkCards = []
+            detail.complete = false
+        }
+        cloneOrder.expectedDeliverDate = new Date().getTime()
+        commit('updateOrder', {order:cloneOrder, isNew:true})
     }
 }
 

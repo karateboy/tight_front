@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table table-striped table-hover">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th></th>
@@ -10,10 +10,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(order, index) in myList">
+            <tr v-for="(order, index) in myList" :class='{success: selectedIndex == index}'>
                 <td>
                     <button class="btn btn-info" @click="displayOrder(index)">顯示細節</button>
-                    <button class="btn btn-info" @click="copyOrder(index)">複製訂單</button>
+                    <button class="btn btn-info" @click="prepareCloneOrder(index)">複製訂單</button>
                     <button class="btn btn-info" @click="closeOrder(index)">結案</button>
                 </td>
                 <td>{{ order._id}}</td>
@@ -32,6 +32,7 @@
     body{
     }
 
+
 </style>
 <script>
     import {mapActions} from 'vuex'
@@ -47,16 +48,17 @@
         data(){
             return {
                 displayDetail: false,
+                selectedIndex: -1,
                 order: {}
             }
         },
-        computed:{
+        computed: {
             myList(){
                 return this.orderList;
             }
         },
         methods: {
-                ...mapActions(['displayOrder']),
+            ...mapActions(['showOrder', 'cloneOrder']),
             displayDate(millis){
                 const mm = moment(millis)
                 const dateStr = mm.format('YYYY-MM-DD')
@@ -64,12 +66,14 @@
                 return dateStr + " (" + afterStr + ")";
             },
             displayOrder(idx){
-                this.$store.dispatch('displayOrder', this.myList[idx])
-                //this.order = this.myList[idx]
+                this.selectedIndex = idx
+                this.showOrder(this.myList[idx])
                 this.displayDetail = true;
             },
-            copyOrder(idx){
-                alert("複製訂單")
+            prepareCloneOrder(idx){
+                this.selectedIndex = idx
+                this.cloneOrder(this.myList[idx])
+                this.$router.push({name: 'NewOrder'})
             },
             closeOrder(idx){
                 alert("結束訂單")
