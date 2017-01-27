@@ -13,14 +13,8 @@
                 </div>
             </div>
             <div v-if="activeSpec">
-                <div class="text-primary">
-                    <h2>條碼不輸入, 則由系統自行產生</h2>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">漂染條碼:</label>
-                    <div class="col-lg-2">
-                        <input type="text" class="form-control" v-model="activeSpec.barcode">
-                    </div>
+                <div class="alert alert-info" role="alert">
+                    條碼可不輸入, 由系統自行產生
                 </div>
                 <div class="form-group">
                     <label class="col-lg-1 control-label">訂單需求:</label>
@@ -120,10 +114,9 @@
                 const dyeCard = {
                     _id: "",
                     workIdList: [],
-                    color: this.activeSpec.color
+                    color: this.activeSpec.color,
+                    active: true
                 }
-                if (this.activeSpec.barcode)
-                    dyeCard._id = this.activeSpec.barcode
 
                 const workCards = []
                 for (let workCardSpec of this.activeSpec.workCardSpecList) {
@@ -132,7 +125,9 @@
                             _id: "",
                             orderId: workCardSpec.orderId,
                             detailIndex: workCardSpec.index,
-                            quantity: parseInt(workCardSpec.toProduce)
+                            quantity: parseInt(workCardSpec.toProduce),
+                            good: parseInt(workCardSpec.toProduce),
+                            active: true
                         }
                         if (workCardSpec.barcode)
                             workCard._id = workCardSpec.barcode

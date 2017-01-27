@@ -7,7 +7,7 @@ import QueryOrder from "./components/QueryOrder.vue"
 import Schedule from "./components/Schedule.vue"
 import NewSchedule from "./components/NewSchedule.vue"
 import ActiveDyeCardList from "./components/ActiveDyeCardList.vue"
-import WorkCardView from "./components/WorkCardView.vue"
+import WorkCardView from "./components/ActiveWorkCard.vue"
 import UpdateDyeCard from './components/UpdateDyeCard.vue'
 import UpdateStylingCard from './components/UpdateStylingCard.vue'
 import UpdateTidyCard from './components/UpdateTidyCard.vue'

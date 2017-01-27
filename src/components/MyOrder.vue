@@ -1,6 +1,10 @@
 <template>
     <div>
-        <order-list :order-list="myOrder"></order-list>
+        <div v-if='myOrder.length != 0'>
+            <order-list :order-list="myOrder"></order-list>
+        </div>
+        <div v-else class="alert alert-info" role="alert"> 沒有訂單</div>
+
     </div>
 </template>
 <style>
@@ -18,34 +22,30 @@
     export default{
         data(){
             return {
-                msg: 'hello vue',
-                fetchOrder: false,
                 orderList: []
             }
         },
         computed: {
             ...mapGetters(['user']),
             myOrder(){
-                if (!this.fetchOrder) {
-                    const url = "/MyActiveOrder/" + this.user._id;
-                    axios.get(url).then(
-                            (resp) => {
-                                const ret = resp.data
-                                const len = this.orderList.length
-                                this.orderList.splice(0, len)
-                                for (let v of resp.data) {
-                                    this.orderList.push(v)
-                                }
+                const url = "/MyActiveOrder/" + this.user._id;
+                axios.get(url).then(
+                        (resp) => {
+                            const len = this.orderList.length
+                            this.orderList.splice(0, len)
+                            for (let v of resp.data) {
+                                this.orderList.push(v)
                             }
-                    ).catch((err) => {
-                        alert(err)
-                    })
-                    this.fetchOrder = true
-                }
-                return this.orderList;
+                        }
+                ).catch((err) => {
+                    alert(err)
+                })
+                return this.orderList
             }
-        },
 
+        },
+        methods:{
+        },
         components: {
             OrderList
         }

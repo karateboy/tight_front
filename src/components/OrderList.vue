@@ -2,7 +2,7 @@
     <div>
         <table class="table table-hover">
             <thead>
-            <tr>
+            <tr class='info'>
                 <th></th>
                 <th>訂單編號</th>
                 <th>客戶編號</th>

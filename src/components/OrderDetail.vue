@@ -133,7 +133,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal">新增細項
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增
                     </button>
                 </div>
 
@@ -160,7 +161,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noticeModal">新增
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noticeModal">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增
                     </button>
                 </div>
 
@@ -295,10 +297,13 @@
     }
 
 
+
+
 </style>
 <script>
     import {mapGetters} from 'vuex'
     import axios from 'axios'
+    import moment from 'moment'
     import Datepicker from 'vuejs-datepicker'
 
 
@@ -363,7 +368,13 @@
             },
             expectedDeliverDate: {
                 get: function () {
-                    return new Date(this.order.expectedDeliverDate)
+                    if (this.order.expectedDeliverDate)
+                        return new Date(this.order.expectedDeliverDate)
+                    else {
+                        const deliver = moment("0", "hh").add(1, 'month').toDate()
+                        this.order.expectedDeliverDate = deliver.getTime()
+                        return deliver
+                    }
                 },
                 // setter
                 set: function (newValue) {

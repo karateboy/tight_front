@@ -37,7 +37,7 @@
         </form>
         <br>
         <div v-if='displayCard'>
-            <tidy-card :tidyCard='tidyCard' v-on:updated='cleanup'></tidy-card>
+            <tidy-card :tidyCard='tidyCard' v-on:updated='cleanup' :quantity='quantity'></tidy-card>
         </div>
     </div>
 </template>
@@ -55,6 +55,7 @@
             return {
                 workCardID: "",
                 displayCard: false,
+                quantity:0,
                 tidyCard: {}
             }
         },
@@ -63,10 +64,15 @@
                 const phase = this.$route.params.phase
                 axios.post("/GetTidyCard", {workCardID: this.workCardID, phase}).then((resp) => {
                     const ret = resp.data
-                    this.tidyCard = ret
+                    this.quantity = ret.quantity
+                    this.tidyCard = ret.card
                     this.displayCard = true
-                }).catch((err) => {
-                    alert(err)
+                }).catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data);
+                    } else {
+                        alert(error.message);
+                    }
                 })
             },
             cleanup(){

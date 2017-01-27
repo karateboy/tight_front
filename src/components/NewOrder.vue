@@ -1,6 +1,8 @@
 <template>
     <div>
-        <button class='btn btn-primary' @click="newOrder">重設</button>
+        <br>
+        <div class='col-lg-1'></div>
+        <button class='btn btn-primary' @click="newOrder"><i class="fa fa-shower" aria-hidden="true"></i>&nbsp;重設</button>
         <order-detail></order-detail>
     </div>
 </template>
