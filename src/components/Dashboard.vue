@@ -1,12 +1,9 @@
 <template>
-    <div class="dashboard">
-        <h1>{{ user.groupId + "的儀錶板"}}</h1>
+    <div>
+        <h1>外銷內部生產管理系統</h1>
     </div>
 </template>
 <style>
-    .dashboard {
-        background-color:#ffff00;
-    }
 
 </style>
 <script>

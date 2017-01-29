@@ -27,6 +27,7 @@
                 <a><i class="fa fa-th-large"></i>
                     <span class="nav-label">成品倉庫</span> </a></router-link>
         </ul>
+        <br>
         <form class="form-horizontal" @submit.prevent="query">
             <div class="form-group has-feedback"><label class="col-lg-3 control-label">流動工作卡號:</label>
                 <div class="col-lg-5"><input type="text" placeholder="掃描條碼" autofocus
@@ -35,7 +36,6 @@
                 </div>
             </div>
         </form>
-        <br>
         <div v-if='displayCard'>
             <tidy-card :tidyCard='tidyCard' v-on:updated='cleanup' :quantity='quantity'></tidy-card>
         </div>

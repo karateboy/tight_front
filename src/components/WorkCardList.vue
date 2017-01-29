@@ -1,7 +1,7 @@
 <template>
     <div>
         <br>
-        <table class="table table-bordered">
+        <table class="table table-bordered table-condensed">
             <thead>
             <tr>
                 <th></th>
@@ -10,6 +10,7 @@
                 <th class='text-center'>數量<br>(優/預定)</th>
                 <th class='text-center'>漂染卡號</th>
                 <th class='text-center'>排程時間</th>
+                <th class='text-center'>狀態</th>
             </tr>
             </thead>
             <tbody>
@@ -20,6 +21,10 @@
                 <td class='text-right'>{{workCard.good + "/" +workCard.quantity}}</td>
                 <td class='text-right'>{{workCard.dyeCardID}}</td>
                 <td class='text-right'>{{displayTime(workCard.startTime)}}</td>
+                <td >
+                    <i class="fa fa-hourglass-half" style="color:red" aria-hidden="true" v-if='workCard.active'>處理中</i>
+                    <i class="fa fa-check" style="color:green" aria-hidden="true" v-else>結束</i>
+                </td>
             </tr>
             </tbody>
         </table>

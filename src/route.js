@@ -7,7 +7,9 @@ import QueryOrder from "./components/QueryOrder.vue"
 import Schedule from "./components/Schedule.vue"
 import NewSchedule from "./components/NewSchedule.vue"
 import ActiveDyeCardList from "./components/ActiveDyeCardList.vue"
-import WorkCardView from "./components/ActiveWorkCard.vue"
+import ActiveWorkCard from "./components/ActiveWorkCard.vue"
+import QueryDyeCard from "./components/QueryDyeCard.vue"
+import QueryWorkCard from "./components/QueryWorkCard.vue"
 import UpdateDyeCard from './components/UpdateDyeCard.vue'
 import UpdateStylingCard from './components/UpdateStylingCard.vue'
 import UpdateTidyCard from './components/UpdateTidyCard.vue'
@@ -15,6 +17,7 @@ import SystemManagement from './components/SystemManagement.vue'
 import AddUser from './components/AddUser.vue'
 import DelUser from './components/DelUser.vue'
 import UpdateUser from './components/UpdateUser.vue'
+
 export const routes = [
     {path: '/', component: Dashboard, name: 'Dashboard'},
     {path: '/Login', component: Login, name: 'Login'},
@@ -31,7 +34,9 @@ export const routes = [
         children: [
             {path: 'New', component: NewSchedule},
             {path: 'ActiveDyeCardList', component: ActiveDyeCardList, name: 'ActiveDyeCardList'},
-            {path: 'WorkCard', component: WorkCardView}
+            {path: 'WorkCard', component: ActiveWorkCard},
+            {path: 'QueryDyeCard', component: QueryDyeCard, name: 'QueryDyeCard'},
+            {path: 'QueryWorkCard', component: QueryWorkCard, name: 'QueryWorkCard'},
         ]
     },
     {path: '/Dyeing', component: UpdateDyeCard, name: 'UpdateDyeCard'},

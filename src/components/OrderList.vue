@@ -1,30 +1,38 @@
 <template>
     <div>
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered table-condensed">
             <thead>
             <tr class='info'>
                 <th></th>
                 <th>訂單編號</th>
                 <th>客戶編號</th>
+                <th>品名</th>
+                <th>訂單總數(打)</th>
                 <th>預定出貨日</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="(order, index) in myList" :class='{success: selectedIndex == index}'>
                 <td>
-                    <button class="btn btn-info" @click="displayOrder(index)">顯示細節</button>
-                    <button class="btn btn-info" @click="prepareCloneOrder(index)">複製訂單</button>
-                    <button class="btn btn-info" @click="closeOrder(index)">結案</button>
+                    <button class="btn btn-primary" @click="displayOrder(index)"><i class="fa fa-eye"></i>&nbsp;內容</button>
+                    <button class="btn btn-primary" @click="prepareCloneOrder(index)"><i class="fa fa fa-clone"></i>&nbsp;複製</button>
+                    <button class="btn btn-primary" @click='displayProgress(index)'><i class="fa fa-truck" aria-hidden="true"></i>&nbsp;進度</button>
+                    <button class="btn btn-success" @click="closeOrder(index)"><i class="fa fa-money"></i>&nbsp;結案</button>
                 </td>
                 <td>{{ order._id}}</td>
                 <td>{{ order.customerId}}</td>
+                <td>{{ order.name}}</td>
+                <td>{{ displayQuantity(order)}}</td>
                 <td>{{ displayDate(order.expectedDeliverDate) }}</td>
             </tr>
             </tbody>
         </table>
         <hr>
-        <div v-if="displayDetail">
+        <div v-if="display=='detail'">
             <order-detail></order-detail>
+        </div>
+        <div v-else-if="display=='progress'">
+            <order-progress></order-progress>
         </div>
     </div>
 </template>
@@ -36,8 +44,10 @@
 </style>
 <script>
     import {mapActions} from 'vuex'
-    import orderDetail from './OrderDetail.vue'
+    import OrderDetail from './OrderDetail.vue'
+    import OrderProgress from './OrderProgress.vue'
     import moment from 'moment'
+    import {toDozenStr} from '../dozenExp'
     export default{
         props: {
             orderList: {
@@ -47,7 +57,7 @@
         },
         data(){
             return {
-                displayDetail: false,
+                display: '',
                 selectedIndex: -1,
                 order: {}
             }
@@ -68,19 +78,32 @@
             displayOrder(idx){
                 this.selectedIndex = idx
                 this.showOrder(this.myList[idx])
-                this.displayDetail = true;
+                this.display = 'detail';
             },
             prepareCloneOrder(idx){
                 this.selectedIndex = idx
                 this.cloneOrder(this.myList[idx])
                 this.$router.push({name: 'NewOrder'})
             },
+            displayProgress(idx){
+                this.selectedIndex = idx
+                this.showOrder(this.myList[idx])
+                this.display = 'progress'
+            },
             closeOrder(idx){
                 alert("結束訂單")
+            },
+            displayQuantity(order){
+                let total =0;
+                for(let detail of order.details){
+                    total += detail.quantity
+                }
+                return toDozenStr(total)
             }
         },
         components: {
-            orderDetail
+            OrderDetail,
+            OrderProgress
         }
     }
 </script>

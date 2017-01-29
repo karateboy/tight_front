@@ -10,7 +10,7 @@
         </form>
         <br>
         <div v-if='displayCard'>
-            <styling-card :stylingCard='stylingCard' :workCardID='workCardID' v-on:updated='cleanup'></styling-card>
+            <styling-card :stylingCard='stylingCard' :workCardID='workCardID' :quantity='quantity' v-on:updated='cleanup'></styling-card>
         </div>
     </div>
 </template>
@@ -18,6 +18,7 @@
     body{
         background-color:#ff0000;
     }
+
 
 
 </style>
@@ -31,23 +32,27 @@
                 workCardID: "",
                 displayCard: false,
                 stylingCard: {
-                    date:0
-                }
+                    date: 0
+                },
+                quantity: 0
             }
         },
         methods: {
             query(){
-                console.log(this.workCardID)
-                axios.get("/StylingCard/" + this.workCardID).then((resp) => {
+                axios.get("/WorkCard/" + this.workCardID).then((resp) => {
                     const ret = resp.data
                     if (resp.status == 200) {
-                        if(ret === null)
+                        let workCard = ret
+                        if (workCard.stylingCard == null)
                             this.stylingCard = {
-                                date:0
+                                operator:[],
+                                date: 0
                             }
                         else
-                            this.stylingCard = ret
+                            this.stylingCard = workCard.stylingCard
                         this.displayCard = true
+                        this.quantity = workCard.quantity
+                        console.log(this.stylingCard)
                     } else {
                         alert("找不到流動工作卡:")
                         this.workCardID = ""

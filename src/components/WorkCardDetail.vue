@@ -21,31 +21,35 @@
             <tr>
                 <td>{{workCard._id}}</td>
                 <td class='text-right'>{{workCard.good + "/" +workCard.quantity}}</td>
-                <td class='text-right'><i class="fa fa-ban" aria-hidden="true" v-if='dyeCard.active'></i>
-                    <i class="fa fa-check" aria-hidden="true" v-else></i>
-                </td>
-                <td class='text-right'><i class="fa fa-check" aria-hidden="true" v-if='stylingReady(workCard.stylingCard)'></i>
-                    <i class="fa fa-ban" aria-hidden="true" v-else></i>
+                <td class='text-right'>
+                    <i class="fa fa-ban" style="color:red" aria-hidden="true"
+                       v-if='dyeCard.active'></i>
+                    <i class="fa fa-check" style="color:green" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" v-if='tidyMap["檢襪"]'></i>
-                    <i class="fa fa-ban" aria-hidden="true" v-else></i>
+                    <i class="fa fa-check" style="color:green" aria-hidden="true"
+                       v-if='stylingReady(workCard.stylingCard)'>{{workCard.stylingCard.good}}</i>
+                    <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" v-if='tidyMap["車洗標"]'></i>
-                    <i class="fa fa-ban" aria-hidden="true" v-else></i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["檢襪"]'>{{tidyMap["檢襪"].good}}</i>
+                    <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" v-if='tidyMap["剪線頭"]'></i>
-                    <i class="fa fa-ban" aria-hidden="true" v-else></i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["車洗標"]'>{{tidyMap["車洗標"].good}}</i>
+                    <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" v-if='tidyMap["整理包裝"]'></i>
-                    <i class="fa fa-ban" aria-hidden="true" v-else></i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["剪線頭"]'>{{tidyMap["剪線頭"].good}}</i>
+                    <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" v-if='tidyMap["成品倉庫"]'></i>
-                    <i class="fa fa-ban" aria-hidden="true" v-else></i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["整理包裝"]'>{{tidyMap["整理包裝"].good}}</i>
+                    <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
+                </td>
+                <td class='text-right'>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["成品倉庫"]'>{{tidyMap["成品倉庫"].good}}</i>
+                    <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
             </tr>
             </tbody>

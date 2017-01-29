@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="alert alert-info" role="alert">輸入範例: 12.03, 0.05</div>
+        <div class="alert alert-info" role="alert">工作卡總量: {{displayQuantity() + '打'}}</div>
         <div class="form-horizontal">
             <div class="form-group"><label class="col-lg-1 control-label">優:</label>
                 <div class="col-lg-2"><input type="text" class="form-control" v-model="myCard.good"></div>
@@ -17,8 +17,9 @@
             <div class="form-group"><label class="col-lg-1 control-label">不均:</label>
                 <div class="col-lg-2"><input type="text" class="form-control" v-model="myCard.notEven"></div>
             </div>
+            <div class="alert alert-info" role="alert">多人參與請用逗號分隔, 如: 122,85</div>
             <div class="form-group"><label class="col-lg-1 control-label">工號:</label>
-                <div class="col-lg-2"><input type="text" class="form-control" v-model="myCard.operator"></div>
+                <div class="col-lg-5"><input type="text" class="form-control" v-model="myCard.operator"></div>
             </div>
             <div class="form-group">
                 <div class="col-lg-offset-1 col-lg-1">
@@ -32,37 +33,7 @@
 </style>
 <script>
     import axios from 'axios'
-    function toFloatStr(v) {
-        if (!v)
-            return ""
-        else {
-            let ret = parseInt(v / 12)
-            let frac = v % 12
-            if (frac != 0) {
-                if (v % 12 < 10)
-                    ret += '.0' + frac
-                else
-                    ret += frac
-            }
-
-
-            return ret
-        }
-    }
-
-    function fromFloat(v) {
-        if (v == null || v == '')
-            return null
-
-        let vStr = "" + v
-        let num = vStr.split('.', 2)
-
-        let ret = parseInt(num[0], 10) * 12
-        if (num.length == 2)
-            ret += parseInt(num[1]) % 12
-
-        return ret
-    }
+    import {fromDozenStr, toDozenStr} from '../dozenExp'
 
     export default{
         props: {
@@ -73,31 +44,54 @@
             workCardID: {
                 type: String,
                 required: true
+            },
+            quantity: {
+                type: Number,
+                required: true
             }
         },
         data(){
             return {
                 myCard: {
-                    good: toFloatStr(this.stylingCard.good),
-                    sub: toFloatStr(this.stylingCard.sub),
-                    stain: toFloatStr(this.stylingCard.stain),
-                    broken: toFloatStr(this.stylingCard.broken),
-                    notEven: toFloatStr(this.stylingCard.notEven),
-                    operator: this.stylingCard.operator
+                    good: toDozenStr(this.stylingCard.good),
+                    sub: toDozenStr(this.stylingCard.sub),
+                    stain: toDozenStr(this.stylingCard.stain),
+                    broken: toDozenStr(this.stylingCard.broken),
+                    notEven: toDozenStr(this.stylingCard.notEven),
+                    operator: this.stylingCard.operator.join()
                 }
             }
         },
         methods: {
             prepareStylingCard(){
-                this.stylingCard.good = fromFloat(this.myCard.good)
-                this.stylingCard.sub = fromFloat(this.myCard.sub)
-                this.stylingCard.stain = fromFloat(this.myCard.stain)
-                this.stylingCard.broken = fromFloat(this.myCard.broken)
-                this.stylingCard.notEven = fromFloat(this.myCard.notEven)
-                this.stylingCard.operator = this.myCard.operator
+                this.stylingCard.good = fromDozenStr(this.myCard.good)
+                if(this.stylingCard.good == null){
+                    alert("優不能是空白")
+                    return false
+                }
+
+                this.stylingCard.sub = fromDozenStr(this.myCard.sub)
+                this.stylingCard.stain = fromDozenStr(this.myCard.stain)
+                this.stylingCard.broken = fromDozenStr(this.myCard.broken)
+                this.stylingCard.notEven = fromDozenStr(this.myCard.notEven)
+                this.stylingCard.operator = this.myCard.operator.trim().split(",")
+
+                if(this.stylingCard.operator == null || this.stylingCard.operator.length == 0){
+                    alert("工號不能是空白")
+                    return false
+                }
+
+                let total = this.stylingCard.good + this.stylingCard.sub + this.stylingCard.stain +this.stylingCard.broken + this.stylingCard.notEven
+                if(total > this.quantity){
+                    alert("超過總量")
+                    return false
+                }
+                return true
             },
             update(){
-                this.prepareStylingCard()
+                if(!this.prepareStylingCard())
+                    return
+
                 axios.post("/StylingCard/" + this.workCardID, this.stylingCard).then((resp) => {
                     const ret = resp.data
                     if (ret.ok) {
@@ -108,6 +102,9 @@
                 }).catch((err) => {
                     alert(err)
                 })
+            },
+            displayQuantity(){
+                return toDozenStr(this.quantity)
             }
         },
         components: {}

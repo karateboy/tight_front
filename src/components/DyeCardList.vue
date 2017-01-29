@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table  table-bordered">
+        <table class="table  table-bordered table-condensed">
             <thead>
             <tr>
                 <th></th>
@@ -13,13 +13,16 @@
                 <th>顏色</th>
                 <th>數量(打)</th>
                 <th>編織批號</th>
+                <th>狀態</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="(card, idx) in cardList" :class='{success: selectedIdx==idx}'>
                 <td>
-                    <button class="btn btn-info" @click="displayDyeCardDetail(card, idx)">細節</button>
-                    <button class="btn btn-info" @click="dyeCardPDF(card)">列印</button>
+                    <button class="btn btn-primary" @click="displayDyeCardDetail(card, idx)"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;內容</button>
+                    <button class="btn btn-primary" @click="dyeCardPDF(card)"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;列印</button>
+                    <button class="btn btn-primary" @click="displayWorkCards(card, idx)"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;顯示工作卡</button>
+                    <button class="btn btn-primary" @click="workCardLabel(card)"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;列印工作卡</button>
                 </td>
                 <td>{{card._id}}</td>
                 <td>{{displayOrderId(card)}}</td>
@@ -30,12 +33,19 @@
                 <td>{{card.color}}</td>
                 <td>{{totalQuantity(card)}}</td>
                 <td>-</td>
+                <td>
+                    <i class="fa fa-hourglass-half" style="color:red" aria-hidden="true" v-if='card.active'>處理中</i>
+                    <i class="fa fa-check" style="color:green" aria-hidden="true" v-else>結束</i>
+                </td>
             </tr>
             </tbody>
         </table>
         <hr/>
-        <div v-if="displayDetail">
+        <div v-if="display=='detail'">
             <dye-card-detail :dyeCard="targetDyeCard" :edit='false'></dye-card-detail>
+        </div>
+        <div v-else-if="display=='workCards'">
+            <work-card-list :workCardList='workCardList'></work-card-list>
         </div>
     </div>
 </template>
@@ -43,7 +53,9 @@
 </style>
 <script>
     import moment from 'moment'
+    import axios from 'axios'
     import DyeCardDetail from './DyeCardDetail.vue'
+    import WorkCardList from './WorkCardList.vue'
     import baseUrl from '../baseUrl'
     export default{
         props: {
@@ -54,9 +66,10 @@
         },
         data(){
             return {
-                displayDetail: false,
+                display: "",
                 selectedIdx:-1,
-                targetDyeCard: {}
+                targetDyeCard: {},
+                workCardList:[]
             }
         },
         methods: {
@@ -110,16 +123,34 @@
             },
             displayDyeCardDetail(dyeCard, idx){
                 this.selectedIdx = idx
-                this.displayDetail = true
+                this.display = 'detail'
                 this.targetDyeCard = dyeCard
             },
             dyeCardPDF(dyeCard){
                 let url = baseUrl() + "/DyeCardPDF/" + dyeCard._id
                 window.open(url)
+            },
+            displayWorkCards(dyeCard, idx){
+                this.selectedIdx = idx
+                axios.post("/GetWorkCards", dyeCard.workIdList).then((resp)=>{
+                    const ret = resp.data
+                    this.workCardList.splice(0, this.workCardList.length)
+                    for(let workCard of ret){
+                        this.workCardList.push(workCard)
+                    }
+                }).catch((err)=>{
+                    alert(err)
+                })
+                this.display = 'workCards'
+            },
+            workCardLabel(dyeCard){
+                let url = baseUrl() + "/WorkCardLabelByDyeCard/" + dyeCard._id
+                window.open(url)
             }
         },
         components: {
-            DyeCardDetail
+            DyeCardDetail,
+            WorkCardList
         }
     }
 </script>

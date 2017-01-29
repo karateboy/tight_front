@@ -4,9 +4,13 @@
             <ul class="nav nav-tabs">
                 <router-link to='/Schedule/New' tag='li' role="presentation" active-class='active'><a>排定工作</a>
                 </router-link>
-                <router-link to='/Schedule/ActiveDyeCardList' tag='li' role="presentation" active-class='active'><a>漂染單</a>
+                <router-link to='/Schedule/ActiveDyeCardList' tag='li' role="presentation" active-class='active'><a>處理中漂染單</a>
                 </router-link>
-                <router-link to='/Schedule/WorkCard' tag='li' role="presentation" active-class='active'><a>流動工作卡</a>
+                <router-link to='/Schedule/QueryDyeCard' tag='li' role="presentation" active-class='active'><a>查詢漂染單</a>
+                </router-link>
+                <router-link to='/Schedule/WorkCard' tag='li' role="presentation" active-class='active'><a>處理中工作卡</a>
+                </router-link>
+                <router-link to='/Schedule/QueryWorkCard' tag='li' role="presentation" active-class='active'><a>查詢工作卡</a>
                 </router-link>
             </ul>
             <router-view></router-view>

@@ -125,8 +125,8 @@
                                 <td>{{detail.size}}</td>
                                 <td>{{detail.quantity}} / {{detail.quantity/12}}</td>
                                 <td>
-                                    <button class="btn btn-danger" @click="delDetail(idx)"><i class="fa fa-trash"
-                                                                                              aria-hidden="true"></i>刪除
+                                    <button class="btn btn-danger" @click="delDetail(idx)" v-if='isNewOrder'>
+                                        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;刪除
                                     </button>
                                 </td>
                             </tr>
@@ -154,7 +154,7 @@
                                 <td>{{notice.msg}}</td>
                                 <td>
                                     <button class="btn btn-danger" @click="delNotice(idx)">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>刪除
+                                        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;刪除
                                     </button>
                                 </td>
                             </tr>
