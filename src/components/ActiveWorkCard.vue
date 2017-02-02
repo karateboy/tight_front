@@ -8,6 +8,7 @@
 <script>
     import axios from 'axios'
     import WorkCardList from './WorkCardList.vue'
+    import cardHelper from '../cardHelper'
     export default{
         data(){
             this.getActiveWorkCard()
@@ -21,6 +22,7 @@
                     const ret = resp.data
                     this.workCardList.splice(0, this.workCardList.length)
                     for(let workCard of ret){
+                        cardHelper.populateWorkCard(workCard)
                         this.workCardList.push(workCard)
                     }
                 }).catch((err) => {

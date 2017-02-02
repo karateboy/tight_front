@@ -57,6 +57,8 @@
     import DyeCardDetail from './DyeCardDetail.vue'
     import WorkCardList from './WorkCardList.vue'
     import baseUrl from '../baseUrl'
+    import cardHelper from '../cardHelper'
+    import {toDozenStr} from '../dozenExp'
     export default{
         props: {
             cardList: {
@@ -119,7 +121,7 @@
                 for (let workCard of dyeCard.workCards) {
                     total += workCard.quantity
                 }
-                return total/12
+                return toDozenStr(total)
             },
             displayDyeCardDetail(dyeCard, idx){
                 this.selectedIdx = idx
@@ -136,6 +138,7 @@
                     const ret = resp.data
                     this.workCardList.splice(0, this.workCardList.length)
                     for(let workCard of ret){
+                        cardHelper.populateWorkCard(workCard)
                         this.workCardList.push(workCard)
                     }
                 }).catch((err)=>{

@@ -56,6 +56,7 @@
     import moment from 'moment'
     import Datepicker from 'vuejs-datepicker'
     import WorkCardList from "./WorkCardList.vue"
+    import cardHelper from '../cardHelper'
 
     export default{
         data(){
@@ -112,6 +113,7 @@
                     const ret = resp.data
                     this.cardList.splice(0, this.cardList.length)
                     for(let card of ret){
+                        cardHelper.populateWorkCard(card)
                         this.cardList.push(card)
                     }
                     this.display = true

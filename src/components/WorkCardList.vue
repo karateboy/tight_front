@@ -8,6 +8,8 @@
                 <th>編號</th>
                 <th>訂單號碼</th>
                 <th class='text-center'>數量<br>(優/預定)</th>
+                <th class='text-center'>顏色</th>
+                <th class='text-center'>尺寸</th>
                 <th class='text-center'>漂染卡號</th>
                 <th class='text-center'>排程時間</th>
                 <th class='text-center'>狀態</th>
@@ -19,6 +21,8 @@
                 <td class='text-right'>{{workCard._id}}</td>
                 <td class='text-right'>{{workCard.orderId}}</td>
                 <td class='text-right'>{{workCard.good + "/" +workCard.quantity}}</td>
+                <td class='text-right'>{{displayColor(workCard)}}</td>
+                <td class='text-right'>{{displaySize(workCard)}}</td>
                 <td class='text-right'>{{workCard.dyeCardID}}</td>
                 <td class='text-right'>{{displayTime(workCard.startTime)}}</td>
                 <td >
@@ -59,7 +63,20 @@
             showDetail(idx){
                 this.workCard = this.workCardList[idx]
                 this.detail = idx
-            }
+            },
+            displayColor(workCard){
+                if(workCard.order.details != null){
+                    return workCard.order.details[workCard.detailIndex].color
+                }else
+                    return "查詢中"
+            },
+            displaySize(workCard){
+                if(workCard.order && workCard.order.details){
+                    return workCard.order.details[workCard.detailIndex].size
+                }else
+                    return "查詢中"
+            },
+
         },
         components: {
             WorkCardDetail

@@ -5,14 +5,15 @@ export function toDozenStr(v) {
     if (!v)
         return ""
     else {
-        let ret = parseInt(v / 12)
+        let ret = parseInt(v / 12).toString()
         let fraction = v % 12
         if (fraction != 0) {
             if (v % 12 < 10)
                 ret += '.0' + fraction
             else
-                ret += fraction
+                ret += '.' + fraction
         }
+
         return ret
     }
 }
