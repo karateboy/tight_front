@@ -2,7 +2,7 @@
  * Created by user on 2017/1/28.
  */
 export function toDozenStr(v) {
-    if (!v)
+    if (v == null)
         return ""
     else {
         let ret = parseInt(v / 12).toString()

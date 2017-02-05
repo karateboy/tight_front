@@ -3,7 +3,7 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th rowspan="2">編號</th>
+                <th rowspan="2">流動卡編號</th>
                 <th rowspan="2" class='text-center'>數量<br>(優/預定)</th>
                 <th rowspan="2" class='text-center'>漂染</th>
                 <th rowspan="2">定型</th>

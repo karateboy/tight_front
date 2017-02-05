@@ -39,21 +39,37 @@
                     </router-link>
                     <router-link to='/Schedule/ActiveDyeCardList' tag='li' role="presentation" active-class='active'><a>處理中漂染單</a>
                     </router-link>
-                    <router-link to='/Schedule/QueryDyeCard' tag='li' role="presentation" active-class='active'><a>查詢漂染單</a>
+                    <router-link to='/Schedule/QueryDyeCard' tag='li' role="presentation" active-class='active'>
+                        <a>查詢漂染單</a>
                     </router-link>
-                    <router-link to='/Schedule/WorkCard' tag='li' role="presentation" active-class='active'><a>處理中工作卡</a>
+                    <router-link to='/Schedule/WorkCard' tag='li' role="presentation" active-class='active'>
+                        <a>處理中流動卡</a>
                     </router-link>
-                    <router-link to='/Schedule/QueryWorkCard' tag='li' role="presentation" active-class='active'><a>查詢工作卡</a>
+                    <router-link to='/Schedule/QueryWorkCard' tag='li' role="presentation" active-class='active'><a>查詢流動卡</a>
                     </router-link>
                 </ul>
             </li>
-            <router-link tag="li" :to="{name:'UpdateDyeCard'}" active-class="active"><a><i class="fa fa-th-large"></i>
-                <span
-                        class="nav-label">漂染課</span> </a></router-link>
-
-            <router-link tag="li" :to="{name:'UpdateStylingCard'}" active-class="active">
-                <a><i class="fa fa-th-large"></i>
-                    <span class="nav-label">定型課</span> </a></router-link>
+            <li>
+                <a><i class="fa fa-th-large"></i> <span class="nav-label">漂染課</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <router-link tag="li" :to="{name:'UpdateDyeCard'}" active-class="active"><a>
+                        <i class="fa fa-th-large"></i>
+                        <span class="nav-label">漂染卡</span> </a></router-link>
+                </ul>
+            </li>
+            <li>
+                <a><i class="fa fa-th-large"></i> <span class="nav-label">定型課</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <router-link tag="li" :to="{name:'UpdateStylingCard'}" active-class="active"><a>
+                        <i class="fa fa-th-large"></i>
+                        <span class="nav-label">流動卡</span> </a></router-link>
+                    <router-link tag="li" :to="{name:'StylingReport'}" active-class="active"><a>
+                        <i class="fa fa-th-large"></i>
+                        <span class="nav-label">報表</span> </a></router-link>
+                </ul>
+            </li>
             <li>
                 <a><i class="fa fa-th-large"></i> <span class="nav-label">整理課</span> <span
                         class="fa arrow"></span></a>
@@ -83,6 +99,9 @@
                                  params:{ phase:'成品倉庫'}}" active-class="active">
                         <a><i class="fa fa-th-large"></i>
                             <span class="nav-label">成品倉庫</span> </a></router-link>
+                    <router-link tag="li" :to="{name:'TidyReport'}" active-class="active"><a>
+                        <i class="fa fa-th-large"></i>
+                        <span class="nav-label">報表</span> </a></router-link>
                 </ul>
             </li>
             <li>
@@ -116,14 +135,14 @@
     import axios from 'axios'
     export default{
         data(){
-            axios.get('/Group').then((resp)=>{
+            axios.get('/Group').then((resp) => {
                 const ret = resp.data
-                for(let groupInfo of ret){
+                for (let groupInfo of ret) {
                     this.groupInfoMap[groupInfo.id] = groupInfo.name
                 }
             })
             return {
-                groupInfoMap:{}
+                groupInfoMap: {}
             }
         },
         computed: {

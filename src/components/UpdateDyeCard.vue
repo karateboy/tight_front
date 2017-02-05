@@ -1,7 +1,7 @@
 <template>
-    <div class="ibox-content">
+    <div>
         <form class="form-horizontal" @submit.prevent="query">
-            <div class="form-group has-feedback"><label class="col-lg-3 control-label">漂染包襪明細單號:</label>
+            <div class="form-group has-feedback"><label class="col-lg-3 control-label">漂染單編號:</label>
                 <div class="col-lg-5"><input type="text" placeholder="掃描條碼" autofocus
                                              class="form-control"
                                              v-model="id">
@@ -10,7 +10,6 @@
                 </div>
             </div>
         </form>
-        <br>
         <div v-if='displayCard'>
             <dye-card-detail  :edit="true" :dyeCard='dyeCard' @updated='cleanup'></dye-card-detail>
         </div>

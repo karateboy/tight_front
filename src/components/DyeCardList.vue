@@ -2,8 +2,9 @@
     <div>
         <table class="table  table-bordered table-condensed">
             <thead>
-            <tr>
+            <tr class='info'>
                 <th></th>
+                <th>流動卡</th>
                 <th>漂染卡編號</th>
                 <th>訂單編號</th>
                 <th>客戶</th>
@@ -13,6 +14,7 @@
                 <th>顏色</th>
                 <th>數量(打)</th>
                 <th>編織批號</th>
+                <th>備註</th>
                 <th>狀態</th>
             </tr>
             </thead>
@@ -21,8 +23,11 @@
                 <td>
                     <button class="btn btn-primary" @click="displayDyeCardDetail(card, idx)"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;內容</button>
                     <button class="btn btn-primary" @click="dyeCardPDF(card)"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;列印</button>
-                    <button class="btn btn-primary" @click="displayWorkCards(card, idx)"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;顯示工作卡</button>
-                    <button class="btn btn-primary" @click="workCardLabel(card)"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;列印工作卡</button>
+                    <button class="btn btn-danger" @click="deleteDyeCard(card, idx)"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;刪除</button>
+                </td>
+                <td>
+                    <button class="btn btn-primary" @click="displayWorkCards(card, idx)"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;檢視</button>
+                    <button class="btn btn-primary" @click="workCardLabel(card)"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;列印標籤</button>
                 </td>
                 <td>{{card._id}}</td>
                 <td>{{displayOrderId(card)}}</td>
@@ -33,6 +38,7 @@
                 <td>{{card.color}}</td>
                 <td>{{totalQuantity(card)}}</td>
                 <td>-</td>
+                <td>{{card.remark}}</td>
                 <td>
                     <i class="fa fa-hourglass-half" style="color:red" aria-hidden="true" v-if='card.active'>處理中</i>
                     <i class="fa fa-check" style="color:green" aria-hidden="true" v-else>結束</i>
@@ -149,6 +155,19 @@
             workCardLabel(dyeCard){
                 let url = baseUrl() + "/WorkCardLabelByDyeCard/" + dyeCard._id
                 window.open(url)
+            },
+            deleteDyeCard(dyeCard, idx){
+                axios.delete("/DyeCard/" + dyeCard._id).then((resp)=>{
+                    const ret = resp.data
+                    if(ret.ok){
+                        alert("刪除漂染卡!")
+                        this.cardList.splice(idx, 1)
+                    }else{
+                        alert("刪除失敗:" + ret.msg)
+                    }
+                }).catch((err)=>{
+                    alert(err)
+                })
             }
         },
         components: {

@@ -29,7 +29,7 @@
                                     format="yyyy-MM-dd"></datepicker>
                     </div>
                 </div>
-                <div class="form-group"><label class="col-lg-1 control-label">訂單總數(雙):</label>
+                <div class="form-group"><label class="col-lg-1 control-label">訂單總數(打):</label>
                     <div class="col-lg-4"><input type="number" class="form-control" v-model="quantity" readonly>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                             <tr>
                                 <th>顏色</th>
                                 <th>尺寸</th>
-                                <th>數量 (雙/打)</th>
+                                <th>數量 (打)</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -123,7 +123,7 @@
                             <tr v-for="(detail, idx) in order.details">
                                 <td>{{detail.color}}</td>
                                 <td>{{detail.size}}</td>
-                                <td>{{detail.quantity}} / {{detail.quantity/12}}</td>
+                                <td>{{detail.quantity/12}}</td>
                                 <td>
                                     <button class="btn btn-danger" @click="delDetail(idx)" v-if='isNewOrder'>
                                         <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;刪除
@@ -305,7 +305,7 @@
     import axios from 'axios'
     import moment from 'moment'
     import Datepicker from 'vuejs-datepicker'
-
+    import * as dozenExp from '../dozenExp'
 
     export default{
         data(){
@@ -338,7 +338,7 @@
                 for (var detail of this.order.details) {
                     sum += detail.quantity
                 }
-                return sum;
+                return dozenExp.toDozenStr(sum)
             },
             departments(){
                 if (!this.departmentFetched) {

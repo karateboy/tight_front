@@ -123,7 +123,6 @@
                 this.prepareParam()
                 axios.post('/QueryOrder', this.queryParam).then((resp) => {
                     const ret = resp.data
-                    console.log(ret)
                     this.orderList.splice(0, this.orderList.length)
                     for (let order of ret) {
                         this.orderList.push(order)

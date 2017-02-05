@@ -1,5 +1,5 @@
 <template>
-    <div class="ibox-content">
+    <div>
         <form class="form-horizontal" @submit.prevent="query">
             <div class="form-group has-feedback"><label class="col-lg-3 control-label">流動工作卡號:</label>
                 <div class="col-lg-5"><input type="text" placeholder="掃描條碼" autofocus

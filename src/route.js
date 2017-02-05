@@ -17,6 +17,11 @@ import SystemManagement from './components/SystemManagement.vue'
 import AddUser from './components/AddUser.vue'
 import DelUser from './components/DelUser.vue'
 import UpdateUser from './components/UpdateUser.vue'
+import DyeingDep from './components/DyeingDep.vue'
+import StylingDep from './components/StylingDep.vue'
+import StylingReport from './components/StylingReport.vue'
+import TidyDep from './components/TidyDep.vue'
+import TidyReport from './components/TidyReport.vue'
 
 export const routes = [
     {path: '/', component: Dashboard, name: 'Dashboard'},
@@ -39,9 +44,23 @@ export const routes = [
             {path: 'QueryWorkCard', component: QueryWorkCard, name: 'QueryWorkCard'},
         ]
     },
-    {path: '/Dyeing', component: UpdateDyeCard, name: 'UpdateDyeCard'},
-    {path: '/Styling', component: UpdateStylingCard, name: 'UpdateStylingCard'},
-    {path: '/TidyCard/:phase', component: UpdateTidyCard, name: 'UpdateTidyCard'},
+    {path: '/Dyeing', component:DyeingDep,
+        children:[
+            {path:'Update', component:UpdateDyeCard, name: 'UpdateDyeCard'}
+        ]
+    },
+    {path: '/Styling', component: StylingDep,
+        children:[
+            {path:'Update', component:UpdateStylingCard, name: 'UpdateStylingCard'},
+            {path:'Report', component:StylingReport, name: 'StylingReport'}
+        ]
+    },
+    {path: '/Tidy', component:TidyDep,
+        children:[
+            {path: 'TidyCard/:phase', component: UpdateTidyCard, name: 'UpdateTidyCard'},
+            {path:'Report', component:TidyReport, name: 'TidyReport'}
+        ]
+    },
     {
         path: '/System', component: SystemManagement, name: 'SystemManagement',
         children: [

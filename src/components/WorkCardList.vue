@@ -3,10 +3,10 @@
         <br>
         <table class="table table-bordered table-condensed">
             <thead>
-            <tr>
+            <tr class='info'>
                 <th></th>
-                <th>編號</th>
-                <th>訂單號碼</th>
+                <th>流動卡編號</th>
+                <th>訂單編號</th>
                 <th class='text-center'>數量<br>(優/預定)</th>
                 <th class='text-center'>顏色</th>
                 <th class='text-center'>尺寸</th>

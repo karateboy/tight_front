@@ -17,7 +17,7 @@
                     <button class="btn btn-primary" @click="displayOrder(index)"><i class="fa fa-eye"></i>&nbsp;內容</button>
                     <button class="btn btn-primary" @click="prepareCloneOrder(index)"><i class="fa fa fa-clone"></i>&nbsp;複製</button>
                     <button class="btn btn-primary" @click='displayProgress(index)'><i class="fa fa-truck" aria-hidden="true"></i>&nbsp;進度</button>
-                    <button class="btn btn-success" @click="closeOrder(index)"><i class="fa fa-money"></i>&nbsp;結案</button>
+                    <button class="btn btn-success" @click="closeOrder(index)" v-if='order.active'><i class="fa fa-money"></i>&nbsp;結案</button>
                 </td>
                 <td>{{ order._id}}</td>
                 <td>{{ order.customerId}}</td>
@@ -48,6 +48,7 @@
     import OrderProgress from './OrderProgress.vue'
     import moment from 'moment'
     import {toDozenStr} from '../dozenExp'
+    import axios from 'axios'
     export default{
         props: {
             orderList: {
@@ -91,7 +92,17 @@
                 this.display = 'progress'
             },
             closeOrder(idx){
-                alert("結束訂單")
+                axios.post("/CloseOrder/"+ this.orderList[idx]._id).then((resp)=>{
+                    const ret = resp.data
+                    if(ret.ok){
+                        alert("訂單結案")
+                        this.orderList.splice(idx, 1)
+                    }else{
+                        alert(ret.msg)
+                    }
+                }).catch((err)=>{
+                    alert(err)
+                })
             },
             displayQuantity(order){
                 let total =0;

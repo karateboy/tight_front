@@ -8,9 +8,9 @@
                 </router-link>
                 <router-link to='/Schedule/QueryDyeCard' tag='li' role="presentation" active-class='active'><a>查詢漂染單</a>
                 </router-link>
-                <router-link to='/Schedule/WorkCard' tag='li' role="presentation" active-class='active'><a>處理中工作卡</a>
+                <router-link to='/Schedule/WorkCard' tag='li' role="presentation" active-class='active'><a>處理中流動卡</a>
                 </router-link>
-                <router-link to='/Schedule/QueryWorkCard' tag='li' role="presentation" active-class='active'><a>查詢工作卡</a>
+                <router-link to='/Schedule/QueryWorkCard' tag='li' role="presentation" active-class='active'><a>查詢流動卡</a>
                 </router-link>
             </ul>
             <router-view></router-view>
