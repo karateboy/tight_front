@@ -9,16 +9,20 @@
                 </div>
             </div>
             <div class="form-group"><label class="col-lg-1 control-label">品牌:</label>
-                <div class="col-lg-4"><input type="text" class="form-control" placeholder="品牌" v-model="queryParam.brand"></div>
+                <div class="col-lg-4"><input type="text" class="form-control" placeholder="品牌"
+                                             v-model="queryParam.brand"></div>
             </div>
             <div class="form-group"><label class="col-lg-1 control-label">品名:</label>
-                <div class="col-lg-4"><input type="text" class="form-control" placeholder="品名" v-model="queryParam.name"></div>
+                <div class="col-lg-4"><input type="text" class="form-control" placeholder="品名"
+                                             v-model="queryParam.name"></div>
             </div>
             <div class="form-group"><label class="col-lg-1 control-label">工廠代號:</label>
-                <div class="col-lg-4"><input type="text" class="form-control" placeholder="工廠代號" v-model="queryParam.factoryId"></div>
+                <div class="col-lg-4"><input type="text" class="form-control" placeholder="工廠代號"
+                                             v-model="queryParam.factoryId"></div>
             </div>
             <div class="form-group"><label class="col-lg-1 control-label">客戶編號:</label>
-                <div class="col-lg-4"><input type="text" class="form-control" placeholder="客戶編號" v-model="queryParam.customerId"></div>
+                <div class="col-lg-4"><input type="text" class="form-control" placeholder="客戶編號"
+                                             v-model="queryParam.customerId"></div>
             </div>
             <div class="form-group"><label class="col-lg-1 control-label">出貨日從:</label>
                 <div class="col-lg-5">
@@ -74,12 +78,8 @@
                 get: function () {
                     if (this.queryParam.start)
                         return moment(this.queryParam.start).toDate()
-                    else{
-                        const start = moment("0", "hh").toDate()
-                        this.queryParam.start = start.getTime()
-                        return start;
-                    }
-
+                    else
+                        return null
                 },
                 // setter
                 set: function (newValue) {
@@ -90,11 +90,8 @@
                 get: function () {
                     if (this.queryParam.end)
                         return moment(this.queryParam.end).toDate()
-                    else{
-                        const end = moment("0", "hh").add(1, 'month').toDate()
-                        this.queryParam.end = end.getTime()
-                        return end
-                    }
+                    else
+                        return null
                 },
                 // setter
                 set: function (newValue) {
@@ -104,19 +101,19 @@
         },
         methods: {
             prepareParam(){
-                if(this.queryParam._id == "")
+                if (this.queryParam._id == "")
                     this.queryParam._id = null
 
-                if(this.queryParam.brand == "")
+                if (this.queryParam.brand == "")
                     this.queryParam.brand = null
 
-                if(this.queryParam.name == "")
+                if (this.queryParam.name == "")
                     this.queryParam.name = null
 
-                if(this.queryParam.factoryId == '')
+                if (this.queryParam.factoryId == '')
                     this.queryParam.factoryId = null
 
-                if(this.queryParam.customerId == '')
+                if (this.queryParam.customerId == '')
                     this.queryParam.customerId = null
             },
             query(){

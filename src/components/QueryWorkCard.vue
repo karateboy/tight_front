@@ -2,8 +2,8 @@
     <div>
         <br>
         <div class="form-horizontal">
-            <div class="form-group"><label class="col-lg-1 control-label">工作卡編號:</label>
-                <div class="col-lg-4"><input type="text" placeholder="工作卡編號"
+            <div class="form-group"><label class="col-lg-1 control-label">流動卡編號:</label>
+                <div class="col-lg-4"><input type="text" placeholder="流動卡編號"
                                              class="form-control"
                                              v-model="queryParam._id">
                 </div>
@@ -42,7 +42,7 @@
             <div v-if='cardList.length != 0'>
                 <work-card-list :workCardList='cardList'></work-card-list>
             </div>
-            <div v-else class="alert alert-info">沒有符合的工作卡</div>
+            <div v-else class="alert alert-info">沒有符合的流動卡</div>
         </div>
     </div>
 </template>
@@ -72,9 +72,10 @@
                     if (this.queryParam.start)
                         return moment(this.queryParam.start).toDate()
                     else{
-                        const start = moment("0", "hh").toDate()
-                        this.queryParam.start = start.getTime()
-                        return start;
+                        //const start = moment("0", "hh").toDate()
+                        //this.queryParam.start = start.getTime()
+                        //return start;
+                        return null
                     }
 
                 },
@@ -88,9 +89,10 @@
                     if (this.queryParam.end)
                         return moment(this.queryParam.end).toDate()
                     else{
-                        const end = moment("0", "hh").add(1, 'month').toDate()
-                        this.queryParam.end = end.getTime()
-                        return end
+                        //const end = moment("0", "hh").add(1, 'month').toDate()
+                        //this.queryParam.end = end.getTime()
+                        //return end
+                        return null
                     }
                 },
                 // setter

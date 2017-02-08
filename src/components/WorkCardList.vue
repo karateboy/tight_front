@@ -43,6 +43,7 @@
 <script>
     import moment from 'moment'
     import WorkCardDetail from './WorkCardDetail.vue'
+
     export default{
         props: {
             workCardList: {

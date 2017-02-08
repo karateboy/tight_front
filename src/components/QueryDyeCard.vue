@@ -71,11 +71,8 @@
                 get: function () {
                     if (this.queryParam.start)
                         return moment(this.queryParam.start).toDate()
-                    else{
-                        const start = moment("0", "hh").toDate()
-                        this.queryParam.start = start.getTime()
-                        return start;
-                    }
+                    else
+                        return null
 
                 },
                 // setter
@@ -87,11 +84,8 @@
                 get: function () {
                     if (this.queryParam.end)
                         return moment(this.queryParam.end).toDate()
-                    else{
-                        const end = moment("0", "hh").add(1, 'month').toDate()
-                        this.queryParam.end = end.getTime()
-                        return end
-                    }
+                    else
+                        return null
                 },
                 // setter
                 set: function (newValue) {

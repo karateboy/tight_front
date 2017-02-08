@@ -12,6 +12,7 @@ const router = new VueRouter({
     routes
 })
 
+
 router.beforeEach((to, from, next)=>{
     if(to.name == 'Login' || store.getters.isAuthenticated)
         next(true)
