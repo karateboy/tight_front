@@ -40,7 +40,7 @@
                                 <td>{{workSpec.factoryId}}</td>
                                 <td>{{workSpec.detail.size}}</td>
                                 <td>{{workCardTotalQuantity(workSpec) + "/" + displayQuantity(workSpec.need)}}</td>
-                                <td><input type="number" v-model="workSpec.toProduce"></td>
+                                <td><input type="text" v-model="workSpec.toProduce"></td>
                                 <td><input type="text" v-model="workSpec.barcode"></td>
                             </tr>
                             </tbody>

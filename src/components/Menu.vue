@@ -53,9 +53,15 @@
                 <a><i class="fa fa-th-large"></i> <span class="nav-label">漂染課</span> <span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
+                    <router-link tag="li" :to="{name:'StartDye'}" active-class="active"><a>
+                        <i class="fa fa-th-large"></i>
+                        <span class="nav-label">開始漂染</span> </a></router-link>
+                    <router-link tag="li" :to="{name:'EndDye'}" active-class="active"><a>
+                        <i class="fa fa-th-large"></i>
+                        <span class="nav-label">漂染結束</span> </a></router-link>
                     <router-link tag="li" :to="{name:'UpdateDyeCard'}" active-class="active"><a>
                         <i class="fa fa-th-large"></i>
-                        <span class="nav-label">漂染卡</span> </a></router-link>
+                        <span class="nav-label">更新漂染卡</span> </a></router-link>
                 </ul>
             </li>
             <li>

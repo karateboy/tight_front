@@ -239,7 +239,7 @@
                             <div class='form-group'>
                                 <label class="col-lg-1 control-label"></label>
                                 <div class="col-lg-4">
-                                    <input type='number' v-model='order.packageInfo.numInBag'>雙入大盒
+                                    <input type='number' v-model='order.packageInfo.numInBag'>雙入大袋
                                     <input type='text' v-model='order.packageInfo.bagNote'>
                                 </div>
                             </div>
@@ -403,6 +403,9 @@
             prepareOrder(){
                 if (!this.order.salesId)
                     this.order.salesId = this.user._id;
+
+                if(this.order.packageInfo.numInBag == "")
+                    this.order.packageInfo.numInBag = null
             },
             upsertOrder(){
                 this.prepareOrder();

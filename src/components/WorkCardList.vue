@@ -7,7 +7,7 @@
                 <th></th>
                 <th>流動卡編號</th>
                 <th>訂單編號</th>
-                <th class='text-center'>數量<br>(優/預定)</th>
+                <th class='text-center'>數量<br>優/預定(打)</th>
                 <th class='text-center'>顏色</th>
                 <th class='text-center'>尺寸</th>
                 <th class='text-center'>漂染卡號</th>
@@ -20,7 +20,7 @@
                 <td><button class='btn btn-info' @click="showDetail(idx)"><i class="fa fa-eye"></i>&nbsp;內容</button></td>
                 <td class='text-right'>{{workCard._id}}</td>
                 <td class='text-right'>{{workCard.orderId}}</td>
-                <td class='text-right'>{{workCard.good + "/" +workCard.quantity}}</td>
+                <td class='text-right'>{{displayGoodQuantity(workCard)}}</td>
                 <td class='text-right'>{{displayColor(workCard)}}</td>
                 <td class='text-right'>{{displaySize(workCard)}}</td>
                 <td class='text-right'>{{workCard.dyeCardID}}</td>
@@ -43,6 +43,7 @@
 <script>
     import moment from 'moment'
     import WorkCardDetail from './WorkCardDetail.vue'
+    import * as dozenExpr from '../dozenExp'
 
     export default{
         props: {
@@ -77,7 +78,10 @@
                 }else
                     return "查詢中"
             },
-
+            displayGoodQuantity(workCard){
+                //workCard.good + "/" +workCard.quantity
+                return dozenExpr.toDozenStr(workCard.good) + "/" + dozenExpr.toDozenStr(workCard.quantity)
+            }
         },
         components: {
             WorkCardDetail

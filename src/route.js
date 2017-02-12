@@ -22,6 +22,8 @@ import StylingDep from './components/StylingDep.vue'
 import StylingReport from './components/StylingReport.vue'
 import TidyDep from './components/TidyDep.vue'
 import TidyReport from './components/TidyReport.vue'
+import StartDye from './components/StartDye.vue'
+import EndDye from './components/EndDye.vue'
 
 export const routes = [
     {path: '/', component: Dashboard, name: 'Dashboard'},
@@ -46,7 +48,9 @@ export const routes = [
     },
     {path: '/Dyeing', component:DyeingDep,
         children:[
-            {path:'Update', component:UpdateDyeCard, name: 'UpdateDyeCard'}
+            {path:'Update', component:UpdateDyeCard, name: 'UpdateDyeCard'},
+            {path:'StartDye', component:StartDye, name:'StartDye'},
+            {path:'EndDye', component:EndDye, name:'EndDye'}
         ]
     },
     {path: '/Styling', component: StylingDep,

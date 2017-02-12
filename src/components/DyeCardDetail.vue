@@ -5,11 +5,19 @@
             <tr>
                 <td>
                     <label class="control-label">染色人員:</label>
-                    <input type="text" class="form-control" v-model="dyeCard.operator" :readonly="!edit"/>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-outline btn-primary"
+                               v-for="operator in operatorList"
+                               @click="dyeCard.operator=operator"
+                               :class="{active: dyeCard.operator==operator }">
+                            <input type="radio">{{ operator }} </label>
+                    </div>
                 </td>
-                <td>染色日期:
-                    <datepicker v-model="dyeCardDate" language="zh"
-                                format="yyyy-MM-dd"></datepicker>
+                <td>開始: {{displayTime(dyeCard.startTime)}}
+                    <br>
+                    結束: {{displayTime(dyeCard.endTime)}}
+                    <br>
+                    總時間: {{displayDiff(dyeCard.startTime, dyeCard.endTime)}}
                 </td>
                 <td>染鍋:
                     <div class="btn-group" data-toggle="buttons">
@@ -76,7 +84,8 @@
                     </div>
                     <div>
                         kg:
-                        <input type="number" class="form-control" v-model="dyeCard.dyeProcess.evenDye" :readonly="!edit"/>
+                        <input type="number" class="form-control" v-model="dyeCard.dyeProcess.evenDye"
+                               :readonly="!edit"/>
                     </div>
                 </td>
                 <td>冰醋酸:<input type="number" class="form-control" v-model="dyeCard.dyeProcess.iceV" :readonly="!edit"/>
@@ -168,10 +177,12 @@
 
 
 
+
 </style>
 <script>
     import Datepicker from 'vuejs-datepicker'
     import axios from 'axios'
+    import moment from  'moment'
     export default{
         props: {
             edit: {
@@ -191,7 +202,8 @@
                 refinePotionList: [
                     'LYS', '環保', '特用', '其他'
                 ],
-                evenDyeTypeList: ['一般', 'PAM']
+                evenDyeTypeList: ['一般', 'PAM'],
+                operatorList: ['康志明', '劉守任', '詹鎮岳', '陳炳翔']
             }
         },
         computed: {
@@ -220,6 +232,14 @@
                 }).catch((err) => {
                     alert(err)
                 })
+            },
+            displayTime(v){
+                return moment(v).format('YYYY-MM-DD hh:mm');
+            },
+            displayDiff(a, b){
+                var start = moment(a);
+                var end = moment(b);
+                return end.diff(start, 'minutes') + "分鐘"
             }
         },
         components: {

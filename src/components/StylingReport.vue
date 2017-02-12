@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="form-horizontal">
-            <div class="form-group"><label class="col-lg-1 control-label">日期從:</label>
+            <div class="form-group"><label class="col-lg-1 control-label">XX日期從:</label>
                 <div class="col-lg-5">
                     <div class="input-daterange input-group">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -25,6 +25,35 @@
                 </div>
             </div>
         </div>
+        <div v-if='showReport'>
+            <label class="btn btn-outline" data-toggle="tooltip" data-placement="bottom" title="Excel"><a @click.prevent='downloadExcel'><i class="fa fa-file-excel-o fa-2x"></i></a></label>
+            <table class="table  table-bordered table-condensed">
+                <thead>
+                <tr class='info'>
+                    <th>日期</th>
+                    <th>流動卡編號</th>
+                    <th>優</th>
+                    <th>副</th>
+                    <th>汙</th>
+                    <th>破</th>
+                    <th>不均</th>
+                    <th>工號</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for='card in cardList'>
+                    <td>{{displayDate(card.stylingCard.date)}}</td>
+                    <td>{{card._id}}</td>
+                    <td>{{displayQuantity(card.stylingCard.good)}}</td>
+                    <td>{{displayQuantity(card.stylingCard.sub)}}</td>
+                    <td>{{displayQuantity(card.stylingCard.stain)}}</td>
+                    <td>{{displayQuantity(card.stylingCard.broken)}}</td>
+                    <td>{{displayQuantity(card.stylingCard.notEven)}}</td>
+                    <td>{{card.stylingCard.operator.join()}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 <style>
@@ -36,11 +65,16 @@
     import axios from 'axios'
     import moment from 'moment'
     import Datepicker from 'vuejs-datepicker'
+    import * as dozenExp from '../dozenExp'
+    import baseUrl from '../baseUrl'
 
     export default{
         data(){
             return{
-                queryParam: {}
+                queryParam: {},
+                showReport: false,
+                cardList:[],
+                operatorList:[]
             }
         },
         computed: {
@@ -78,10 +112,31 @@
         },
         methods: {
             query(){
-                axios.post('/QueryWorkCard', this.queryParam).then((resp) => {
+                const url = '/StylingReport/'+this.queryParam.start+'/'+ this.queryParam.end
+                axios.get(url).then((resp) => {
+                    const ret = resp.data
+                    this.cardList.splice(0, this.cardList.length)
+                    for(let card of ret.cards){
+                        this.cardList.push(card)
+                    }
+                    this.operatorList.splice(0, this.operatorList.length)
+                    for(let operator of ret.operatorList){
+                        this.operatorList.push(operator)
+                    }
+                    this.showReport = true
                 }).catch((err) => {
                     alert(err)
                 })
+            },
+            displayDate(mm){
+                return moment(mm).format('YYYY-MM-DD')
+            },
+            displayQuantity(v){
+                return dozenExp.toDozenStr(v)
+            },
+            downloadExcel(){
+                const url = baseUrl() + '/StylingReport/Excel/'+this.queryParam.start+'/'+ this.queryParam.end
+                window.open(url)
             }
         },
         components:{

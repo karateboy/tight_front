@@ -4,7 +4,7 @@
             <thead>
             <tr>
                 <th rowspan="2">流動卡編號</th>
-                <th rowspan="2" class='text-center'>數量<br>(優/預定)</th>
+                <th rowspan="2" class='text-center'>數量<br>優/預定(打)</th>
                 <th rowspan="2" class='text-center'>漂染</th>
                 <th rowspan="2">定型</th>
                 <th colspan="5" class='text-center'>整理</th>
@@ -20,7 +20,7 @@
             <tbody>
             <tr>
                 <td>{{workCard._id}}</td>
-                <td class='text-right'>{{workCard.good + "/" +workCard.quantity}}</td>
+                <td class='text-right'>{{displayGoodQuantity(workCard)}}</td>
                 <td class='text-right'>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true"
                        v-if='dyeCard.active'></i>
@@ -28,27 +28,27 @@
                 </td>
                 <td class='text-right'>
                     <i class="fa fa-check" style="color:green" aria-hidden="true"
-                       v-if='stylingReady(workCard.stylingCard)'>{{workCard.stylingCard.good}}</i>
+                       v-if='stylingReady(workCard.stylingCard)'>{{displayQuantity(workCard.stylingCard.good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["檢襪"]'>{{tidyMap["檢襪"].good}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["檢襪"]'>{{displayQuantity(tidyMap["檢襪"].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["車洗標"]'>{{tidyMap["車洗標"].good}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["車洗標"]'>{{displayQuantity(tidyMap["車洗標"].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["剪線頭"]'>{{tidyMap["剪線頭"].good}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["剪線頭"]'>{{displayQuantity(tidyMap["剪線頭"].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["整理包裝"]'>{{tidyMap["整理包裝"].good}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["整理包裝"]'>{{displayQuantity(tidyMap["整理包裝"].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["成品倉庫"]'>{{tidyMap["成品倉庫"].good}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["成品倉庫"]'>{{displayQuantity(tidyMap["成品倉庫"].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
             </tr>
@@ -61,6 +61,7 @@
 </style>
 <script>
     import axios from 'axios'
+    import * as dozenExpr from '../dozenExp'
     export default{
         props: {
             workCard: {
@@ -103,6 +104,13 @@
                 }).catch((err) => {
                     alert(err)
                 })
+            },
+            displayGoodQuantity(workCard){
+                //workCard.good + "/" +workCard.quantity
+                return dozenExpr.toDozenStr(workCard.good) + "/" + dozenExpr.toDozenStr(workCard.quantity)
+            },
+            displayQuantity(value){
+                return dozenExpr.toDozenStr(value)
             }
         },
         components: {}
