@@ -123,7 +123,7 @@
                             <tr v-for="(detail, idx) in order.details">
                                 <td>{{detail.color}}</td>
                                 <td>{{detail.size}}</td>
-                                <td>{{detail.quantity/12}}</td>
+                                <td><input type='text' :value="detailQuantity(idx)" @input="detail.quantity = getDozenQuantity($event.target.value)" ></td>
                                 <td>
                                     <button class="btn btn-danger" @click="delDetail(idx)" v-if='isNewOrder'>
                                         <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;刪除
@@ -146,12 +146,13 @@
                             <tr>
                                 <th>部門</th>
                                 <th>注意事項</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="(notice, idx) in order.notices">
                                 <td>{{displayDepartment(notice.department)}}</td>
-                                <td>{{notice.msg}}</td>
+                                <td><input type='text' v-model='notice.msg'></td>
                                 <td>
                                     <button class="btn btn-danger" @click="delNotice(idx)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;刪除
@@ -299,6 +300,8 @@
 
 
 
+
+
 </style>
 <script>
     import {mapGetters} from 'vuex'
@@ -404,7 +407,7 @@
                 if (!this.order.salesId)
                     this.order.salesId = this.user._id;
 
-                if(this.order.packageInfo.numInBag == "")
+                if (this.order.packageInfo.numInBag == "")
                     this.order.packageInfo.numInBag = null
             },
             upsertOrder(){
@@ -431,14 +434,25 @@
             delDetail(idx){
                 this.order.details.splice(idx, 1)
             },
-            addNotice(){
+            detailQuantity(idx){
+                return dozenExp.toDozenStr(this.order.details[idx].quantity)
+            },
+            getDozenQuantity(newValue){
+                    return dozenExp.fromDozenStr(newValue)
+            },
+            addNotice()
+            {
                 let copy = Object.assign({}, this.notice)
                 this.order.notices.push(copy)
-            },
-            delNotice(idx){
+            }
+            ,
+            delNotice(idx)
+            {
                 this.order.notices.splice(idx, 1)
-            },
-            displayDepartment(id){
+            }
+            ,
+            displayDepartment(id)
+            {
                 for (let dep of this.departmentList) {
                     if (dep.id == id)
                         return dep.name

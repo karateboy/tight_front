@@ -26,8 +26,11 @@ export function fromDozenStr(v) {
     let num = vStr.split('.', 2)
 
     let ret = parseInt(num[0], 10) * 12
-    if (num.length == 2)
-        ret += parseInt(num[1]) % 12
+    if (num.length == 2){
+        if(num[1] != '')
+            ret += parseInt(num[1]) % 12
+    }
+
 
     return ret
 }

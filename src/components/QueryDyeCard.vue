@@ -14,7 +14,7 @@
                                              v-model="queryParam.color">
                 </div>
             </div>
-            <div class="form-group"><label class="col-lg-1 control-label">排定日期從:</label>
+            <div class="form-group"><label class="col-lg-1 control-label">漂染日期從:</label>
                 <div class="col-lg-5">
                     <div class="input-daterange input-group">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
