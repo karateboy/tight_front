@@ -33,42 +33,11 @@
                     <div class="col-lg-4"><input type="number" class="form-control" v-model="quantity" readonly>
                     </div>
                 </div>
-                <div class="modal inmodal" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content animated fadeIn">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span
-                                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h4 class="modal-title">新增細項</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">顏色:</label>
-                                        <div class="col-lg-2"><input type="text" class="form-control"
-                                                                     v-model="detail.color"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">尺寸:</label>
-                                        <div class="col-lg-2"><input type="text" class="form-control"
-                                                                     v-model="detail.size"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">數量(打):</label>
-                                        <div class="col-lg-2"><input type="number" class="form-control"
-                                                                     v-model.number.lazy="detail.dozenNumber"></div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addDetail">
-                                    確認
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <order-detail-item id="detailModal" :opType='detailOpType' :detailIndex='detailIndex'
+                                   :detail='getDetailItem()'
+                                   @addOrderDetail='addDetailItem'
+                                   @updateOrderDetail='updateDetailItem'
+                ></order-detail-item>
                 <div class="modal inmodal" id="noticeModal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content animated fadeIn">
@@ -123,17 +92,21 @@
                             <tr v-for="(detail, idx) in order.details">
                                 <td>{{detail.color}}</td>
                                 <td>{{detail.size}}</td>
-                                <td><input type='text' :value="detailQuantity(idx)" @input="detail.quantity = getDozenQuantity($event.target.value)" ></td>
+                                <td><input type='text' :value="detailQuantity(idx)"
+                                           @input="detail.quantity = getDozenQuantity($event.target.value)"></td>
                                 <td>
                                     <button class="btn btn-danger" @click="delDetail(idx)" v-if='isNewOrder'>
                                         <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;刪除
+                                    </button>
+                                    <button class="btn btn-warning" @click="editDetail(idx)" data-toggle="modal" data-target="#detailModal">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;更新
                                     </button>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal" @click="detailOpType='add'">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增
                     </button>
                 </div>
@@ -302,6 +275,8 @@
 
 
 
+
+
 </style>
 <script>
     import {mapGetters} from 'vuex'
@@ -309,6 +284,7 @@
     import moment from 'moment'
     import Datepicker from 'vuejs-datepicker'
     import * as dozenExp from '../dozenExp'
+    import OrderDetailItem from './OrderDetailItem.vue'
 
     export default{
         data(){
@@ -318,8 +294,6 @@
                     size: "",
                     dozenNumber: 1,
                     quantity: 12,
-                    workCardIDs: [],
-                    finishedWorkCards: [],
                     complete: false
                 },
                 departmentList: [],
@@ -328,7 +302,9 @@
                     department: "",
                     msg: ""
                 },
-                isOrderIdOkay: true
+                isOrderIdOkay: true,
+                detailOpType: "add",
+                detailIndex: 0
             }
         },
         computed: {
@@ -426,6 +402,19 @@
                     alert(err);
                 })
             },
+            getDetailItem(){
+                if (this.detailOpType === 'add')
+                    return this.detail
+                else
+                    return this.order.details[this.detailIndex]
+            },
+            addDetailItem(detail){
+                var copy = Object.assign({}, detail);
+                this.order.details.push(copy);
+            },
+            updateDetailItem(evt){
+              console.log(evt)
+            },
             addDetail(){
                 this.detail.quantity = this.detail.dozenNumber * 12;
                 var copy = Object.assign({}, this.detail);
@@ -434,11 +423,15 @@
             delDetail(idx){
                 this.order.details.splice(idx, 1)
             },
+            editDetail(idx){
+              this.detailOpType = 'edit'
+                this.detailIndex = idx
+            },
             detailQuantity(idx){
                 return dozenExp.toDozenStr(this.order.details[idx].quantity)
             },
             getDozenQuantity(newValue){
-                    return dozenExp.fromDozenStr(newValue)
+                return dozenExp.fromDozenStr(newValue)
             },
             addNotice()
             {
@@ -463,7 +456,8 @@
 
         },
         components: {
-            Datepicker
+            Datepicker,
+            OrderDetailItem
         }
     }
 </script>

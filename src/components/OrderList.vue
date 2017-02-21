@@ -18,6 +18,7 @@
                     <button class="btn btn-primary" @click="prepareCloneOrder(index)"><i class="fa fa fa-clone"></i>&nbsp;複製</button>
                     <button class="btn btn-primary" @click='displayProgress(index)'><i class="fa fa-truck" aria-hidden="true"></i>&nbsp;進度</button>
                     <button class="btn btn-success" @click="closeOrder(index)" v-if='order.active'><i class="fa fa-money"></i>&nbsp;結案</button>
+                    <button class="btn btn-danger" @click="deleteOrder(index)" v-if='order.active'><i class="fa fa-trash"></i>&nbsp;刪除</button>
                 </td>
                 <td>{{ order._id}}</td>
                 <td>{{ order.customerId}}</td>
@@ -96,6 +97,19 @@
                     const ret = resp.data
                     if(ret.ok){
                         alert("訂單結案")
+                        this.orderList.splice(idx, 1)
+                    }else{
+                        alert(ret.msg)
+                    }
+                }).catch((err)=>{
+                    alert(err)
+                })
+            },
+            deleteOrder(idx){
+                axios.delete("/Order/"+ this.orderList[idx]._id).then((resp)=>{
+                    const ret = resp.data
+                    if(ret.ok){
+                        alert("訂單刪除")
                         this.orderList.splice(idx, 1)
                     }else{
                         alert(ret.msg)
