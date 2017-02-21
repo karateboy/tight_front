@@ -61,7 +61,11 @@
                 <td>Y:<input type="number" class="form-control" v-model="dyeCard.dyePotion.y" :readonly="!edit"/></td>
                 <td>螢光劑:<input type="number" class="form-control" v-model="dyeCard.dyePotion.Fluorescent"
                                :readonly="!edit"/></td>
-                <td rowspan="3"></td>
+                <td rowspan="3">其他:<input type="text" class="form-control" v-model="dyeCard.dyePotion.otherDyeType"
+                                          :readonly="!edit"/>
+                    數量:<input type="number" class="form-control" v-model="dyeCard.dyePotion.otherDye"
+                              :readonly="!edit"/>
+                </td>
             </tr>
             <tr>
                 <td>R:<input type="number" class="form-control" v-model="dyeCard.dyePotion.r" :readonly="!edit"/></td>
@@ -70,7 +74,8 @@
             </tr>
             <tr>
                 <td>B:<input type="number" class="form-control" v-model="dyeCard.dyePotion.b" :readonly="!edit"/></td>
-                <td></td>
+                <td>黑色:<input type="number" class="form-control" v-model="dyeCard.dyePotion.black"
+                               :readonly="!edit"/></td>
             </tr>
             <tr>
                 <td rowspan="4">染色程序(kg)</td>
@@ -119,14 +124,15 @@
                                :readonly="!edit"/></td>
                 <td>陽離子柔軟劑:<input type="number" class="form-control" v-model="dyeCard.postProcess.postiveSoftener"
                                   :readonly="!edit"/></td>
-                <td>時間:<input type="number" class="form-control" v-model="dyeCard.postProcess.softenTime"
+                <td>溫度:<input type="number" class="form-control" v-model="dyeCard.postProcess.temp"
                               :readonly="!edit"/></td>
             </tr>
             <tr>
                 <td>冰醋酸:<input type="number" class="form-control" v-model="dyeCard.postProcess.iceV" :readonly="!edit"/>
                 </td>
                 <td></td>
-                <td></td>
+                <td>時間:<input type="number" class="form-control" v-model="dyeCard.postProcess.softenTime"
+                              :readonly="!edit"/></td>
             </tr>
             <tr>
                 <td>矽利康:<input type="number" class="form-control" v-model="dyeCard.postProcess.silicon"
@@ -138,7 +144,7 @@
                 <td>烘乾</td>
                 <td>溫度:<input type="number" class="form-control" v-model="dyeCard.dryTemp" :readonly="!edit"/></td>
                 <td>時間:<input type="number" class="form-control" v-model="dyeCard.dryTime" :readonly="!edit"/></td>
-                <td></td>
+                <td>機台:<input type="test" class="form-control" v-model="dyeCard.machine" :readonly="!edit"/></td>
             </tr>
             </tbody>
         </table>
