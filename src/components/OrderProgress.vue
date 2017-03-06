@@ -5,9 +5,9 @@
             <tr>
                 <th>顏色</th>
                 <th>尺寸</th>
-                <th>數量(雙)</th>
+                <th>數量(打)</th>
                 <th>完成</th>
-                <th>進度(雙): (生產中/已完成)</th>
+                <th>進度(打): (生產中/已完成)</th>
                 <th>生產百分比</th>
                 <th>耗損(雙)</th>
             </tr>
@@ -16,15 +16,15 @@
             <tr v-for='(detail, idx) in order.details'>
                 <td>{{detail.color}}</td>
                 <td>{{detail.size}}</td>
-                <td>{{detail.quantity}}</td>
+                <td>{{ showDozen(detail.quantity)}}</td>
                 <td>
                     <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='detail.complete'></i>
                     <i class="fa fa-times" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td>
                     <div v-if='productionSummary[idx]'>
-                        <span class='text-warning'>{{productionSummary[idx].inProduction}}</span>/
-                        <span class='text-success'>{{productionSummary[idx].finished}}</span>
+                        <span class='text-warning'>{{ showDozen(productionSummary[idx].inProduction)}}</span>/
+                        <span class='text-success'>{{ showDozen(productionSummary[idx].finished)}}</span>
                     </div>
                 </td>
                 <td>
@@ -50,7 +50,7 @@
 <script>
     import {mapGetters} from 'vuex'
     import axios from 'axios'
-    import moment from 'moment'
+    import * as dozenExpr from '../dozenExp'
 
     export default{
         data(){
@@ -92,6 +92,9 @@
             productionPercent(idx){
                 let percent = (this.productionSummary_[idx].inProduction + this.productionSummary_[idx].finished)*100/this.order.details[idx].quantity
                 return parseInt(percent)
+            },
+            showDozen(v){
+                return dozenExpr.toDozenStr(v)
             }
         },
         components: {}

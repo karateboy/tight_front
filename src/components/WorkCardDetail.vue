@@ -32,23 +32,23 @@
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["檢襪"]'>{{displayQuantity(tidyMap["檢襪"].good)}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap[0]'>{{displayQuantity(tidyMap[0].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["車洗標"]'>{{displayQuantity(tidyMap["車洗標"].good)}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap[1]'>{{displayQuantity(tidyMap[1].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["剪線頭"]'>{{displayQuantity(tidyMap["剪線頭"].good)}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap[2]'>{{displayQuantity(tidyMap[2].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["整理包裝"]'>{{displayQuantity(tidyMap["整理包裝"].good)}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap[3]'>{{displayQuantity(tidyMap[3].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
                 <td class='text-right'>
-                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap["成品倉庫"]'>{{displayQuantity(tidyMap["成品倉庫"].good)}}</i>
+                    <i class="fa fa-check" aria-hidden="true" style="color:green" v-if='tidyMap[4]'>{{displayQuantity(tidyMap[4].good)}}</i>
                     <i class="fa fa-ban" style="color:red" aria-hidden="true" v-else></i>
                 </td>
             </tr>
@@ -60,6 +60,7 @@
 <style>
 </style>
 <script>
+    import Vue from 'vue'
     import axios from 'axios'
     import * as dozenExpr from '../dozenExp'
     export default{
@@ -70,10 +71,20 @@
             }
         },
         data(){
-            this.populateWorkCard()
             return {
-                tidyMap: [],
+                workCardId:null,
+                phaseMap:['檢襪','車洗標','剪線頭','整理包裝','成品倉庫'],
+                tidyMap_:[],
                 dyeCard: {}
+            }
+        },
+        computed:{
+            tidyMap(){
+                if(this.workCardId != this.workCard._id){
+                    this.populateWorkCard()
+                    this.workCardId = this.workCard._id
+                }
+                return this.tidyMap_
             }
         },
         methods: {
@@ -93,8 +104,11 @@
             populateWorkCard(){
                 axios.get("/TidyCardList/" + this.workCard._id).then((resp) => {
                     const ret = resp.data
+                    for(let i=0;i<5;i++)
+                        Vue.set(this.tidyMap_, i, null)
+
                     for (let tidy of ret) {
-                        this.tidyMap[tidy.phase] = tidy
+                        Vue.set(this.tidyMap_, this.phaseMap.indexOf(tidy.phase), tidy)
                     }
                 }).catch((err) => {
                     alert(err)
