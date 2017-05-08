@@ -34,7 +34,11 @@
                             </thead>
                             <tbody>
                             <tr v-for="(workSpec, idx) in activeSpec.workCardSpecList">
-                                <td><button class='btn btn-primary' @click='addWorkCard(workSpec)'><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增流動卡</button></td>
+                                <td>
+                                    <button class='btn btn-primary' @click='addWorkCard(workSpec)'><i class="fa fa-plus"
+                                                                                                      aria-hidden="true"></i>&nbsp;新增流動卡
+                                    </button>
+                                </td>
                                 <td>{{workSpec.orderId}}</td>
                                 <td>{{displayDate(workSpec.due)}}</td>
                                 <td>{{workSpec.factoryId}}</td>
@@ -63,7 +67,11 @@
                             </thead>
                             <tbody>
                             <tr v-for="(workCard, idx) in workCards">
-                                <td><button class='btn btn-danger' @click='deleteWorkCard(idx)'><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;刪除</button></td>
+                                <td>
+                                    <button class='btn btn-danger' @click='deleteWorkCard(idx)'><i class="fa fa-trash"
+                                                                                                   aria-hidden="true"></i>&nbsp;刪除
+                                    </button>
+                                </td>
                                 <td>{{workCard.orderId}}</td>
                                 <td>{{workCard.workCardSpec.factoryId}}</td>
                                 <td>{{workCard.workCardSpec.detail.size}}</td>
@@ -80,8 +88,10 @@
                         <input type="text" v-model='remark'>
                     </div>
                 </div>
-                    <div class="form-group">
-                    <button class="col-lg-offset-1 btn btn-primary" @click="schedule" :disabled='!readyToSchedule'>排定生產</button>
+                <div class="form-group">
+                    <button class="col-lg-offset-1 btn btn-primary" @click="schedule" :disabled='!readyToSchedule'>
+                        排定生產
+                    </button>
                 </div>
             </div>
         </div>
@@ -108,21 +118,21 @@
                 fetched: false,
                 activeSpec: null,
                 workCards: [],
-                remark:""
+                remark: ""
             }
         },
         computed: {
             myDyeCardSpecList(){
                 if (!this.fetched) {
                     axios.get("/DyeCardSpec").then(
-                            (resp) => {
-                                const ret = resp.data
-                                const len = this.dyeCardSpecList.length
-                                this.dyeCardSpecList.splice(0, len)
-                                for (let v of ret) {
-                                    this.dyeCardSpecList.push(v)
-                                }
+                        (resp) => {
+                            const ret = resp.data
+                            const len = this.dyeCardSpecList.length
+                            this.dyeCardSpecList.splice(0, len)
+                            for (let v of ret) {
+                                this.dyeCardSpecList.push(v)
                             }
+                        }
                     ).catch((err) => {
                         console.log(err)
                     })
@@ -144,9 +154,11 @@
             },
             setActiveSpec(spec){
                 this.activeSpec = spec
-                for (let workSpec of this.activeSpec.workCardSpecList) {
-                    workSpec.toProduce = 50
-                }
+                /*
+                 for (let workSpec of this.activeSpec.workCardSpecList) {
+                 //workSpec.toProduce = 50
+                 }
+                 */
             },
             addWorkCard(workCardSpec){
                 let quantity = parseInt(dozenExp.fromDozenStr(workCardSpec.toProduce))
@@ -166,21 +178,21 @@
             },
             workCardTotalQuantity(workCardSpec){
                 let total = 0
-                for(let workCard of this.workCards){
-                    if(workCard.workCardSpec == workCardSpec){
+                for (let workCard of this.workCards) {
+                    if (workCard.workCardSpec == workCardSpec) {
                         total += workCard.quantity
                     }
                 }
                 return dozenExp.toDozenStr(total)
             },
             barcode(id){
-                if(id=="")
+                if (id == "")
                     return "系統自動產生"
                 else
                     return id
             },
             deleteWorkCard(idx){
-              this.workCards.splice(idx, 1)
+                this.workCards.splice(idx, 1)
             },
             displayQuantity(quantity){
                 return dozenExp.toDozenStr(quantity)
@@ -191,22 +203,22 @@
                     workIdList: [],
                     color: this.activeSpec.color,
                     active: true,
-                    remark:this.remark
+                    remark: this.remark
                 }
 
                 const url = "/ScheduleDyeWork"
-                axios.post(url, {dyeCard, workCards:this.workCards}).then(
-                        (resp) => {
-                            const ret = resp.data
-                            if (ret.ok){
-                                alert("成功")
-                                this.$router.push({name: 'ActiveDyeCardList'})
-                            }
+                axios.post(url, {dyeCard, workCards: this.workCards}).then(
+                    (resp) => {
+                        const ret = resp.data
+                        if (ret.ok) {
+                            alert("成功")
+                            this.$router.push({name: 'ActiveDyeCardList'})
                         }
+                    }
                 ).catch(
-                        (err) => {
-                            alert(err)
-                        }
+                    (err) => {
+                        alert(err)
+                    }
                 )
             }
         },

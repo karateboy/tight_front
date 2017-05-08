@@ -17,8 +17,10 @@
                     <button class="btn btn-primary" @click="displayOrder(index)"><i class="fa fa-eye"></i>&nbsp;內容</button>
                     <button class="btn btn-primary" @click="prepareCloneOrder(index)"><i class="fa fa fa-clone"></i>&nbsp;複製</button>
                     <button class="btn btn-primary" @click='displayProgress(index)'><i class="fa fa-truck" aria-hidden="true"></i>&nbsp;進度</button>
+                    <button class="btn btn-info" @click='getPdf(index)'><i class="fa fa-pdf" aria-hidden="true"></i>&nbsp;列印</button>
                     <button class="btn btn-success" @click="closeOrder(index)" v-if='order.active'><i class="fa fa-money"></i>&nbsp;結案</button>
                     <button class="btn btn-danger" @click="deleteOrder(index)" v-if='order.active'><i class="fa fa-trash"></i>&nbsp;刪除</button>
+
                 </td>
                 <td>{{ order._id}}</td>
                 <td>{{ order.customerId}}</td>
@@ -48,6 +50,7 @@
     import OrderDetail from './OrderDetail.vue'
     import OrderProgress from './OrderProgress.vue'
     import moment from 'moment'
+    import baseUrl from '../baseUrl'
     import {toDozenStr} from '../dozenExp'
     import axios from 'axios'
     export default{
@@ -91,6 +94,10 @@
                 this.selectedIndex = idx
                 this.showOrder(this.myList[idx])
                 this.display = 'progress'
+            },
+            getPdf(idx){
+                let url = baseUrl() + "/OrderPDF/" + this.myList[idx]._id
+                window.open(url)
             },
             closeOrder(idx){
                 axios.post("/CloseOrder/"+ this.orderList[idx]._id).then((resp)=>{
