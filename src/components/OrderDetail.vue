@@ -385,6 +385,9 @@
 
                 if (this.order.packageInfo.numInBag == "")
                     this.order.packageInfo.numInBag = null
+                else{
+                    this.order.packageInfo.numInBag = parseInt(this.order.packageInfo.numInBag)
+                }
             },
             upsertOrder(){
                 this.prepareOrder();
