@@ -22,24 +22,26 @@
     export default{
         data(){
             return {
-                orderList: []
+                orderList: [],
+                fetched: false
             }
         },
         computed: {
             ...mapGetters(['user']),
             myOrder(){
-                const url = "/MyActiveOrder/" + this.user._id;
-                axios.get(url).then(
+                if(!this.fetched){
+                    const url = "/MyActiveOrder/" + this.user._id;
+                    axios.get(url).then(
                         (resp) => {
-                            const len = this.orderList.length
-                            this.orderList.splice(0, len)
+                            this.fetched = true
                             for (let v of resp.data) {
                                 this.orderList.push(v)
                             }
                         }
-                ).catch((err) => {
-                    alert(err)
-                })
+                    ).catch((err) => {
+                        alert(err)
+                    })
+                }
                 return this.orderList
             }
 

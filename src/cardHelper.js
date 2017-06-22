@@ -9,6 +9,17 @@ export default {
             workCard.order = resp.data
         })
     },
+    populateTidyCard(tidyCard){
+        tidyCard.workCard = {}
+        axios.post("/GetWorkCards", [tidyCard.workCardID]).then((resp)=>{
+            const ret = resp.data
+            for(let workCard of ret){
+                this.populateWorkCard(workCard)
+                tidyCard.workCard = workCard
+            }
+        })
+
+    },
     populateDyeCard(dyeCard){
         dyeCard.workCards = [];
         axios.post("/GetWorkCards", dyeCard.workIdList).then((resp)=>{

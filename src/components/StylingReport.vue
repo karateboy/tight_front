@@ -32,6 +32,10 @@
                 <tr class='info'>
                     <th>日期</th>
                     <th>流動卡編號</th>
+                    <th>客戶編碼</th>
+                    <th>工廠代碼</th>
+                    <th>顏色</th>
+                    <th>尺寸</th>
                     <th>優</th>
                     <th>副</th>
                     <th>汙</th>
@@ -44,6 +48,10 @@
                 <tr v-for='card in cardList'>
                     <td>{{displayDate(card.stylingCard.date)}}</td>
                     <td>{{card._id}}</td>
+                    <td>{{displayCustomerID(card)}}</td>
+                    <td>{{displayFactoryID(card)}}</td>
+                    <td>{{displayColor(card)}}</td>
+                    <td>{{displaySize(card)}}</td>
                     <td>{{displayQuantity(card.stylingCard.good)}}</td>
                     <td>{{displayQuantity(card.stylingCard.sub)}}</td>
                     <td>{{displayQuantity(card.stylingCard.stain)}}</td>
@@ -67,6 +75,7 @@
     import Datepicker from 'vuejs-datepicker'
     import * as dozenExp from '../dozenExp'
     import baseUrl from '../baseUrl'
+    import cardHelper from '../cardHelper'
 
     export default{
         data(){
@@ -117,6 +126,7 @@
                     const ret = resp.data
                     this.cardList.splice(0, this.cardList.length)
                     for(let card of ret.cards){
+                        cardHelper.populateWorkCard(card)
                         this.cardList.push(card)
                     }
                     this.operatorList.splice(0, this.operatorList.length)
@@ -127,6 +137,30 @@
                 }).catch((err) => {
                     alert(err)
                 })
+            },
+            displayCustomerID(workCard){
+                if(workCard.order)
+                    return workCard.order.customerId
+                else
+                    return "查詢中"
+            },
+            displayFactoryID(workCard){
+                if(workCard.order)
+                    return workCard.order.factoryId
+                else
+                    return "查詢中"
+            },
+            displayColor(workCard){
+                if(workCard.order && workCard.order.details){
+                    return workCard.order.details[workCard.detailIndex].color
+                }else
+                    return "查詢中"
+            },
+            displaySize(workCard){
+                if(workCard.order && workCard.order.details){
+                    return workCard.order.details[workCard.detailIndex].size
+                }else
+                    return "查詢中"
             },
             displayDate(mm){
                 return moment(mm).format('YYYY-MM-DD')

@@ -96,8 +96,6 @@
                 if(!this.prepareTidyCard())
                     return
 
-                console.log("--------------------")
-                console.log(this.tidyCard)
                 axios.post("/TidyCard", this.tidyCard).then((resp) => {
                     const ret = resp.data
                     if (ret.ok) {

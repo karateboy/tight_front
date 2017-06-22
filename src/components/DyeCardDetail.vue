@@ -28,7 +28,7 @@
                             <input type="radio">{{ pot }} </label>
                     </div>
                 </td>
-                <td>襪重:<input type="number" class="form-control" v-model="dyeCard.weight" :readonly="!edit"/></td>
+                <td>襪重:<input type="number" class="form-control" v-model.number="dyeCard.weight" :readonly="!edit"/></td>
             </tr>
             <tr>
                 <td rowspan="2">精煉程序(kg)</td>
@@ -41,40 +41,40 @@
                             <input type="radio">{{ refinePotion }} </label>
                     </div>
                     <div>kg:
-                        <input type="number" class="form-control" v-model="dyeCard.refineProcess.refine"
+                        <input type="number" class="form-control" v-model.number="dyeCard.refineProcess.refine"
                                :readonly="!edit"/>
                     </div>
 
                 </td>
-                <td rowspan="2">乳化劑(kg):<input type="number" class="form-control" v-model="dyeCard.refineProcess.milk"
+                <td rowspan="2">乳化劑(kg):<input type="number" class="form-control" v-model.number="dyeCard.refineProcess.milk"
                                                :readonly="!edit"/></td>
-                <td>溫度(C):<input type="number" class="form-control" v-model="dyeCard.refineProcess.refineTime"
+                <td>溫度(C):<input type="number" class="form-control" v-model.number="dyeCard.refineProcess.refineTime"
                                  :readonly="!edit"/></td>
             </tr>
             <tr>
-                <td>時間(分):<input type="number" class="form-control" v-model="dyeCard.refineProcess.refineTemp"
+                <td>時間(分):<input type="number" class="form-control" v-model.number="dyeCard.refineProcess.refineTemp"
                                  :readonly="!edit"/></td>
             </tr>
 
             <tr>
                 <td rowspan="3">染色藥劑(g)</td>
-                <td>Y:<input type="number" class="form-control" v-model="dyeCard.dyePotion.y" :readonly="!edit"/></td>
-                <td>螢光劑:<input type="number" class="form-control" v-model="dyeCard.dyePotion.Fluorescent"
+                <td>Y:<input type="number" class="form-control" v-model.number="dyeCard.dyePotion.y" :readonly="!edit"/></td>
+                <td>螢光劑:<input type="number" class="form-control" v-model.number="dyeCard.dyePotion.Fluorescent"
                                :readonly="!edit"/></td>
                 <td rowspan="3">其他:<input type="text" class="form-control" v-model="dyeCard.dyePotion.otherDyeType"
                                           :readonly="!edit"/>
-                    數量:<input type="number" class="form-control" v-model="dyeCard.dyePotion.otherDye"
+                    數量:<input type="number" class="form-control" v-model.number="dyeCard.dyePotion.otherDye"
                               :readonly="!edit"/>
                 </td>
             </tr>
             <tr>
-                <td>R:<input type="number" class="form-control" v-model="dyeCard.dyePotion.r" :readonly="!edit"/></td>
-                <td>增白劑:<input type="number" class="form-control" v-model="dyeCard.dyePotion.Brightener"
+                <td>R:<input type="number" class="form-control" v-model.number="dyeCard.dyePotion.r" :readonly="!edit"/></td>
+                <td>增白劑:<input type="number" class="form-control" v-model.number="dyeCard.dyePotion.Brightener"
                                :readonly="!edit"/></td>
             </tr>
             <tr>
-                <td>B:<input type="number" class="form-control" v-model="dyeCard.dyePotion.b" :readonly="!edit"/></td>
-                <td>黑色:<input type="number" class="form-control" v-model="dyeCard.dyePotion.black"
+                <td>B:<input type="number" class="form-control" v-model.number="dyeCard.dyePotion.b" :readonly="!edit"/></td>
+                <td>黑色:<input type="number" class="form-control" v-model.number="dyeCard.dyePotion.black"
                                :readonly="!edit"/></td>
             </tr>
             <tr>
@@ -83,68 +83,68 @@
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-outline btn-primary"
                                v-for="evenDyeType in evenDyeTypeList"
-                               @click="dyeCard.dyeProcess.evenDye=evenDye"
+                               @click="dyeCard.dyeProcess.evenDyeType=evenDyeType"
                                :class="{active: dyeCard.dyeProcess.evenDyeType==evenDyeType }">
                             <input type="radio">{{ evenDyeType }} </label>
                     </div>
                     <div>
                         kg:
-                        <input type="number" class="form-control" v-model="dyeCard.dyeProcess.evenDye"
+                        <input type="number" class="form-control" v-model.number="dyeCard.dyeProcess.evenDye"
                                :readonly="!edit"/>
                     </div>
                 </td>
-                <td>冰醋酸:<input type="number" class="form-control" v-model="dyeCard.dyeProcess.iceV" :readonly="!edit"/>
+                <td>冰醋酸:<input type="number" class="form-control" v-model.number="dyeCard.dyeProcess.iceV" :readonly="!edit"/>
                 </td>
-                <td>溫度<input type="number" class="form-control" v-model="dyeCard.dyeProcess.dyeTemp" :readonly="!edit"/>
+                <td>溫度<input type="number" class="form-control" v-model.number="dyeCard.dyeProcess.dyeTemp" :readonly="!edit"/>
                 </td>
             </tr>
             <tr>
-                <td>醋銨:<input type="number" class="form-control" v-model="dyeCard.dyeProcess.vNH3" :readonly="!edit"/>
+                <td>醋銨:<input type="number" class="form-control" v-model.number="dyeCard.dyeProcess.vNH3" :readonly="!edit"/>
                 </td>
                 <td></td>
-                <td>時間(分鐘):<input type="number" class="form-control" v-model="dyeCard.dyeProcess.dyeTime"
+                <td>時間(分鐘):<input type="number" class="form-control" v-model.number="dyeCard.dyeProcess.dyeTime"
                                   :readonly="!edit"/></td>
             </tr>
             <tr>
-                <td>氨水:<input type="number" class="form-control" v-model="dyeCard.dyeProcess.nh3" :readonly="!edit"/>
+                <td>氨水:<input type="number" class="form-control" v-model.number="dyeCard.dyeProcess.nh3" :readonly="!edit"/>
                 </td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
-                <td>起染pH:<input type="number" class="form-control" v-model="dyeCard.dyeProcess.phStart"
+                <td>起染pH:<input type="number" class="form-control" v-model.number="dyeCard.dyeProcess.phStart"
                                 :readonly="!edit"/></td>
                 <td></td>
-                <td>染終pH:<input type="number" class="form-control" v-model="dyeCard.dyeProcess.phEnd"
+                <td>染終pH:<input type="number" class="form-control" v-model.number="dyeCard.dyeProcess.phEnd"
                                 :readonly="!edit"/></td>
             </tr>
             <tr>
                 <td rowspan="3">後處理程序(kg)</td>
-                <td>固色劑:<input type="number" class="form-control" v-model="dyeCard.postProcess.fixedPotion"
+                <td>固色劑:<input type="number" class="form-control" v-model.number="dyeCard.postProcess.fixedPotion"
                                :readonly="!edit"/></td>
-                <td>陽離子柔軟劑:<input type="number" class="form-control" v-model="dyeCard.postProcess.postiveSoftener"
+                <td>陽離子柔軟劑:<input type="number" class="form-control" v-model.number="dyeCard.postProcess.postiveSoftener"
                                   :readonly="!edit"/></td>
-                <td>溫度:<input type="number" class="form-control" v-model="dyeCard.postProcess.temp"
+                <td>溫度:<input type="number" class="form-control" v-model.number="dyeCard.postProcess.temp"
                               :readonly="!edit"/></td>
             </tr>
             <tr>
-                <td>冰醋酸:<input type="number" class="form-control" v-model="dyeCard.postProcess.iceV" :readonly="!edit"/>
+                <td>冰醋酸:<input type="number" class="form-control" v-model.number="dyeCard.postProcess.iceV" :readonly="!edit"/>
                 </td>
                 <td></td>
-                <td>時間:<input type="number" class="form-control" v-model="dyeCard.postProcess.softenTime"
+                <td>時間:<input type="number" class="form-control" v-model.number="dyeCard.postProcess.softenTime"
                               :readonly="!edit"/></td>
             </tr>
             <tr>
-                <td>矽利康:<input type="number" class="form-control" v-model="dyeCard.postProcess.silicon"
+                <td>矽利康:<input type="number" class="form-control" v-model.number="dyeCard.postProcess.silicon"
                                :readonly="!edit"/></td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
                 <td>烘乾</td>
-                <td>溫度:<input type="number" class="form-control" v-model="dyeCard.dryTemp" :readonly="!edit"/></td>
-                <td>時間:<input type="number" class="form-control" v-model="dyeCard.dryTime" :readonly="!edit"/></td>
-                <td>機台:<input type="test" class="form-control" v-model="dyeCard.machine" :readonly="!edit"/></td>
+                <td>溫度:<input type="number" class="form-control" v-model.number="dyeCard.dryTemp" :readonly="!edit"/></td>
+                <td>時間:<input type="number" class="form-control" v-model.number="dyeCard.dryTime" :readonly="!edit"/></td>
+                <td>機台:<input type="text" class="form-control" v-model="dyeCard.machine" :readonly="!edit"/></td>
             </tr>
             </tbody>
         </table>
@@ -160,8 +160,8 @@
             <tbody>
             <tr v-for="sizeChart in dyeCard.sizeCharts">
                 <td>{{sizeChart.size}}</td>
-                <td><input type="number" class="form-control" v-model="sizeChart.before" :readonly="!edit"/></td>
-                <td><input type="number" class="form-control" v-model="sizeChart.after" :readonly="!edit"/></td>
+                <td><input type="number" class="form-control" v-model.number="sizeChart.before" :readonly="!edit"/></td>
+                <td><input type="number" class="form-control" v-model.number="sizeChart.after" :readonly="!edit"/></td>
             </tr>
             </tbody>
         </table>
@@ -227,7 +227,33 @@
             }
         },
         methods: {
+            prepareDyeCard(){
+                /*
+                if(this.dyeCard.weight)
+                    this.dyeCard.weight = parseFloat(this.dyeCard.weight)
+
+                if(this.dyeCard.refineProcess){
+                    if(this.dyeCard.refineProcess.refine)
+                        this.dyeCard.refineProcess.refine = parseFloat(this.dyeCard.refineProcess.refine)
+
+                    if(this.dyeCard.refineProcess.milk)
+                        this.dyeCard.refineProcess.milk = parseFloat(this.dyeCard.refineProcess.milk)
+
+                    if(this.dyeCard.refineProcess.refineTime)
+                        this.dyeCard.refineProcess.refineTime = parseFloat(this.dyeCard.refineProcess.refineTime)
+
+                    if(this.dyeCard.refineProcess.refineTemp)
+                        this.dyeCard.refineProcess.refineTemp = parseFloat(this.dyeCard.refineProcess.refineTemp)
+                }
+
+                if(this.dyeCard.dyePotion){
+                    if(this.dyeCard.dyePotion.y)
+                        this.dyeCard.dyePotion.y = parseFloat(this.dyeCard.dyePotion.y)
+                }
+                */
+            },
             update(){
+                this.prepareDyeCard()
                 axios.post("/DyeCard", this.dyeCard).then((resp) => {
                     const ret = resp.data
                     if (ret.ok) {
