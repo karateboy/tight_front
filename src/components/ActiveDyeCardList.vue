@@ -1,7 +1,7 @@
 <template>
     <div>
         <br>
-        <dye-card-list :cardList='dyeCardList'></dye-card-list>
+        <dye-card-list url="/DyeCard"></dye-card-list>
     </div>
 </template>
 <style scoped>
@@ -15,21 +15,7 @@
 
     export default{
         data(){
-            const dyeCardList = []
-            axios.get("/DyeCard").then((resp)=>{
-                const ret = resp.data
-                dyeCardList.splice(0, dyeCardList.length)
-
-                for(let dyeCard of ret){
-                    cardHelper.populateDyeCard(dyeCard)
-                    dyeCardList.push(dyeCard)
-                }
-            }).catch((err)=>{
-                alert(err);
-            })
-
             return{
-                dyeCardList
             }
         },
         components:{

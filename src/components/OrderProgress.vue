@@ -7,9 +7,9 @@
                 <th>尺寸</th>
                 <th>數量(打)</th>
                 <th>完成</th>
-                <th>進度(打): (生產中/已完成)</th>
+                <th>進度(打): (生產中/已結束)</th>
                 <th>生產百分比</th>
-                <th>耗損(雙)</th>
+                <th>損耗百分比(%)</th>
             </tr>
             </thead>
             <tbody>
@@ -36,8 +36,11 @@
                     </div>
                 </td>
                 <td>
-                    <div v-if='productionSummary[idx]'>
-                        {{productionSummary[idx].overhead}}
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"
+                             :aria-valuenow="overheadPercent(idx)" aria-valuemin="0" aria-valuemax="100" :style="{width:overheadPercent(idx)+'%'}">
+                            {{overheadPercent(idx)}}%
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -93,6 +96,14 @@
                 let percent = (this.productionSummary_[idx].inProduction + this.productionSummary_[idx].finished)*100/this.order.details[idx].quantity
                 return parseInt(percent)
             },
+            overheadPercent(idx){
+                let percent = 0
+                if(this.productionSummary_[idx].inProduction + this.productionSummary_[idx].finished != 0)
+                    percent = this.productionSummary_[idx].overhead * 100/(this.productionSummary_[idx].inProduction + this.productionSummary_[idx].finished)
+
+                return parseInt(percent)
+            },
+
             showDozen(v){
                 return dozenExpr.toDozenStr(v)
             }

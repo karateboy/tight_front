@@ -39,16 +39,13 @@
             </div>
         </div>
         <div v-if='display'>
-            <div v-if='cardList.length != 0'>
-                <dye-card-list :cardList='cardList'></dye-card-list>
-            </div>
-            <div v-else class="alert alert-info">沒有符合的漂染卡</div>
+            <dye-card-list url="/QueryDyeCard" :param="queryParam"></dye-card-list>
         </div>
     </div>
 </template>
 <style>
-    body{
-        background-color:#ff0000;
+    body {
+        background-color: #ff0000;
     }
 </style>
 <script>
@@ -60,7 +57,7 @@
 
     export default{
         data(){
-            return{
+            return {
                 display: false,
                 cardList: [],
                 queryParam: {}
@@ -95,28 +92,21 @@
         },
         methods: {
             prepareParam(){
-                if(this.queryParam._id == "")
+                if (this.queryParam._id == "")
                     this.queryParam._id = null
 
-                if(this.queryParam.color == '')
+                if (this.queryParam.color == '')
                     this.queryParam.color = null
             },
             query(){
                 this.prepareParam()
-                axios.post('/QueryDyeCard', this.queryParam).then((resp) => {
-                    const ret = resp.data
-                    this.cardList.splice(0, this.cardList.length)
-                    for(let card of ret){
-                        cardHelper.populateDyeCard(card)
-                        this.cardList.push(card)
-                    }
+                if (!this.display)
                     this.display = true
-                }).catch((err) => {
-                    alert(err)
-                })
+
+                this.queryParam = Object.assign({}, this.queryParam)
             }
         },
-        components:{
+        components: {
             Datepicker,
             DyeCardList
         }

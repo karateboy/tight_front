@@ -49,10 +49,7 @@
             </div>
         </div>
         <div v-if='display'>
-            <div v-if='orderList.length != 0'>
-                <order-list :order-list="orderList"></order-list>
-            </div>
-            <div v-else class="alert alert-info">沒有符合的訂單</div>
+            <order-list :url="queryUrl" :param="queryParam"></order-list>
         </div>
     </div>
 </template>
@@ -64,12 +61,13 @@
     import moment from 'moment'
     import Datepicker from 'vuejs-datepicker'
     import OrderList from "./OrderList.vue"
+    import cardHelper from '../cardHelper'
 
     export default{
         data(){
             return {
                 display: false,
-                orderList: [],
+                queryUrl: '/QueryOrder',
                 queryParam: {}
             }
         },
@@ -118,16 +116,10 @@
             },
             query(){
                 this.prepareParam()
-                axios.post('/QueryOrder', this.queryParam).then((resp) => {
-                    const ret = resp.data
-                    this.orderList.splice(0, this.orderList.length)
-                    for (let order of ret) {
-                        this.orderList.push(order)
-                    }
+                if(!this.display)
                     this.display = true
-                }).catch((err) => {
-                    alert(err)
-                })
+
+                this.queryParam = Object.assign({}, this.queryParam)
             }
         },
         components: {

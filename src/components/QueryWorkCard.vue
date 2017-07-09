@@ -39,16 +39,13 @@
             </div>
         </div>
         <div v-if='display'>
-            <div v-if='cardList.length != 0'>
-                <work-card-list :workCardList='cardList'></work-card-list>
-            </div>
-            <div v-else class="alert alert-info">沒有符合的流動卡</div>
+            <work-card-list url="/QueryWorkCard" :param="queryParam"></work-card-list>
         </div>
     </div>
 </template>
 <style>
-    body{
-        background-color:#ff0000;
+    body {
+        background-color: #ff0000;
     }
 </style>
 <script>
@@ -60,9 +57,8 @@
 
     export default{
         data(){
-            return{
+            return {
                 display: false,
-                cardList: [],
                 queryParam: {}
             }
         },
@@ -71,7 +67,7 @@
                 get: function () {
                     if (this.queryParam.start)
                         return moment(this.queryParam.start).toDate()
-                    else{
+                    else {
                         //const start = moment("0", "hh").toDate()
                         //this.queryParam.start = start.getTime()
                         //return start;
@@ -88,7 +84,7 @@
                 get: function () {
                     if (this.queryParam.end)
                         return moment(this.queryParam.end).toDate()
-                    else{
+                    else {
                         //const end = moment("0", "hh").add(1, 'month').toDate()
                         //this.queryParam.end = end.getTime()
                         //return end
@@ -103,28 +99,21 @@
         },
         methods: {
             prepareParam(){
-                if(this.queryParam._id == "")
+                if (this.queryParam._id == "")
                     this.queryParam._id = null
 
-                if(this.queryParam.color == '')
+                if (this.queryParam.color == '')
                     this.queryParam.color = null
             },
             query(){
                 this.prepareParam()
-                axios.post('/QueryWorkCard', this.queryParam).then((resp) => {
-                    const ret = resp.data
-                    this.cardList.splice(0, this.cardList.length)
-                    for(let card of ret){
-                        cardHelper.populateWorkCard(card)
-                        this.cardList.push(card)
-                    }
+                if(!this.display)
                     this.display = true
-                }).catch((err) => {
-                    alert(err)
-                })
+
+                this.queryParam = Object.assign({}, this.queryParam)
             }
         },
-        components:{
+        components: {
             Datepicker,
             WorkCardList
         }

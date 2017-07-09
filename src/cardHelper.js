@@ -30,5 +30,12 @@ export default {
                 dyeCard.workCards.push(workCard)
             }
         })
+    },
+    getOrderProductionSummary(order){
+        order.productionSummary = []
+        axios.get("/OrderProductionSummary/" + order._id).then((resp)=>{
+            order.productionSummary.splice(0, order.productionSummary.length)
+            order.productionSummary.push(resp.data)
+        })
     }
 }

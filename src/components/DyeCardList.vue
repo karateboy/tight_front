@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div v-if="cardList.length != 0">
         <table class="table  table-bordered table-condensed">
             <thead>
             <tr class='info'>
@@ -30,11 +31,11 @@
                     <button class="btn btn-primary" @click="workCardLabel(card)"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;列印標籤</button>
                 </td>
                 <td>{{card._id}}</td>
-                <td>{{displayOrderId(card)}}</td>
-                <td>{{displayCustomerId(card)}}</td>
+                <td v-html="displayOrderId(card)"></td>
+                <td v-html="displayCustomerId(card)"></td>
                 <td>{{displayDeliverDate(card)}}</td>
-                <td>{{displayFactoryId(card)}}</td>
-                <td>{{displaySize(card)}}</td>
+                <td v-html="displayFactoryId(card)"></td>
+                <td v-html="displaySize(card)"></td>
                 <td>{{card.color}}</td>
                 <td>{{totalQuantity(card)}}</td>
                 <td>-</td>
@@ -46,6 +47,10 @@
             </tr>
             </tbody>
         </table>
+        <pagination for="cardList" :records="total" :per-page="5"
+                    count-text="第{from}到第{to}筆/共{count}筆|{count} 筆|1筆"></pagination>
+        </div>
+        <div v-else class="alert alert-info" role="alert">沒有符合的漂染卡</div>
         <hr/>
         <div v-if="display=='detail'">
             <dye-card-detail :dyeCard="targetDyeCard" :edit='false'></dye-card-detail>
@@ -65,22 +70,89 @@
     import baseUrl from '../baseUrl'
     import cardHelper from '../cardHelper'
     import {toDozenStr} from '../dozenExp'
+    import {Pagination, PaginationEvent} from 'vue-pagination-2'
+
     export default{
         props: {
-            cardList: {
-                type: Array,
+            url: {
+                type: String,
                 required: true
+            },
+            param: {
+                type: Object
             }
         },
         data(){
             return {
+                cardList:[],
+                skip:0,
+                limit:5,
+                total:0,
                 display: "",
                 selectedIdx:-1,
                 targetDyeCard: {},
                 workCardList:[]
             }
         },
+        mounted: function () {
+            this.fetchDyeCard(this.skip, this.limit)
+            PaginationEvent.$on('vue-pagination::cardList', this.handlePageChange)
+        },
+        watch: {
+            url: function (newUrl) {
+                console.log(newUrl)
+                this.fetchDyeCard(this.skip, this.limit)
+            },
+            param: function (newParam) {
+                console.log(newParam)
+                this.fetchDyeCard(this.skip, this.limit)
+            }
+        },
+
         methods: {
+            processResp(resp){
+                const ret = resp.data
+                this.cardList.splice(0, this.cardList.length)
+
+                for(let dyeCard of ret){
+                    cardHelper.populateDyeCard(dyeCard)
+                    this.cardList.push(dyeCard)
+                }
+            },
+            fetchDyeCard(skip, limit){
+                let request_url = `${this.url}/${skip}/${limit}`
+
+                if (this.param) {
+                    axios.post(request_url, this.param).then(this.processResp).catch((err) => {
+                        alert(err)
+                    })
+                } else {
+                    axios.get(request_url).then(this.processResp).catch((err) => {
+                        alert(err)
+                    })
+                }
+                this.fetchDyeCardCount()
+            },
+            fetchDyeCardCount(){
+                let request_url = `${this.url}/count`
+                if (this.param) {
+                    axios.post(request_url, this.param).then(resp => {
+                        this.total = resp.data
+                    }).catch((err) => {
+                        alert(err)
+                    })
+                } else {
+                    axios.get(request_url).then(resp => {
+                        this.total = resp.data
+                    }).catch((err) => {
+                        alert(err)
+                    })
+                }
+            },
+            handlePageChange(page){
+                this.skip = (page - 1) * this.limit
+                this.fetchDyeCard(this.skip, this.limit)
+            },
             mkStr(list, mapper){
                 let set = new Set()
                 for (let item of list) {
@@ -91,7 +163,7 @@
                     if (ret === "")
                         ret += item
                     else
-                        ret += "/" + item
+                        ret += "<br/>" + item
                 }
                 return ret
             },
@@ -172,7 +244,8 @@
         },
         components: {
             DyeCardDetail,
-            WorkCardList
+            WorkCardList,
+            Pagination
         }
     }
 </script>
