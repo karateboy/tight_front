@@ -4,7 +4,7 @@
         <ul class="nav nav-tabs">
             <router-link tag="li" :to="{name:'UpdateStylingCard'}" active-class="active"><a>
                 <i class="fa fa-th-large"></i>
-                <span class="nav-label">流動卡</span> </a></router-link>
+                <span class="nav-label">定型</span> </a></router-link>
             <router-link tag="li" :to="{name:'StylingReport'}" active-class="active"><a>
                 <i class="fa fa-th-large"></i>
                 <span class="nav-label">報表</span> </a></router-link>

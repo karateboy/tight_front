@@ -56,7 +56,7 @@
             <dye-card-detail :dyeCard="targetDyeCard" :edit='false'></dye-card-detail>
         </div>
         <div v-else-if="display=='workCards'">
-            <work-card-list :workCardList='workCardList'></work-card-list>
+            <work-card-list url="/GetWorkCards" :param="workCardIdList"></work-card-list>
         </div>
     </div>
 </template>
@@ -91,7 +91,7 @@
                 display: "",
                 selectedIdx:-1,
                 targetDyeCard: {},
-                workCardList:[]
+                workCardIdList:[]
             }
         },
         mounted: function () {
@@ -212,16 +212,10 @@
             },
             displayWorkCards(dyeCard, idx){
                 this.selectedIdx = idx
-                axios.post("/GetWorkCards", dyeCard.workIdList).then((resp)=>{
-                    const ret = resp.data
-                    this.workCardList.splice(0, this.workCardList.length)
-                    for(let workCard of ret){
-                        cardHelper.populateWorkCard(workCard)
-                        this.workCardList.push(workCard)
-                    }
-                }).catch((err)=>{
-                    alert(err)
-                })
+                this.workCardIdList.splice(0, this.workCardIdList.length)
+                for(let id of dyeCard.workIdList){
+                    this.workCardIdList.push(id)
+                }
                 this.display = 'workCards'
             },
             workCardLabel(dyeCard){

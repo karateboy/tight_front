@@ -74,7 +74,7 @@
                 this.stylingCard.stain = fromDozenStr(this.myCard.stain)
                 this.stylingCard.broken = fromDozenStr(this.myCard.broken)
                 this.stylingCard.notEven = fromDozenStr(this.myCard.notEven)
-                this.stylingCard.operator = this.myCard.operator.trim().split(",")
+                this.stylingCard.operator = this.myCard.operator.trim().split("[,.]")
 
                 if(this.stylingCard.operator == null || this.stylingCard.operator.length == 0){
                     alert("工號不能是空白")
