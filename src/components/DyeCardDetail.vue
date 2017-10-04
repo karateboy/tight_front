@@ -209,7 +209,7 @@
                     'LYS', '環保', '特用', '其他'
                 ],
                 evenDyeTypeList: ['一般', 'PAM'],
-                operatorList: ['康志明', '劉守任', '詹鎮岳', '陳炳翔']
+                operatorList: ['康志明', '劉守任', '詹鎮岳', '陳炳翔', '許君豪']
             }
         },
         computed: {

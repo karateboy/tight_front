@@ -69,6 +69,7 @@ const actions = {
             detail.complete = false
         }
         cloneOrder.expectedDeliverDate = new Date().getTime()
+        cloneOrder.active = true
         commit('updateOrder', {order:cloneOrder, isNew:true})
     }
 }
