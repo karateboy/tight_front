@@ -52,7 +52,6 @@
                             this.stylingCard = workCard.stylingCard
                         this.displayCard = true
                         this.quantity = workCard.quantity
-                        console.log(this.stylingCard)
                     } else {
                         alert("找不到流動工作卡:")
                         this.workCardID = ""

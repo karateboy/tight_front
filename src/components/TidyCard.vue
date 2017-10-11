@@ -11,8 +11,8 @@
                 <div class="col-lg-2"><input type="text" class="form-control" v-model="myCard.sub"></div>
             </div>
             <div class="form-group">
-                <label class="col-lg-1 control-label">襪頭:</label>
-                <div class="col-lg-2"><input type="text" class="form-control" v-model="myCard.head"></div>
+                <label class="col-lg-1 control-label">副未包:</label>
+                <div class="col-lg-2"><input type="text" class="form-control" v-model="myCard.subNotPack"></div>
             </div>
             <div class="form-group">
                 <label class="col-lg-1 control-label">汙:</label>
@@ -33,6 +33,10 @@
             <div class="form-group">
                 <label class="col-lg-1 control-label">油:</label>
                 <div class="col-lg-2"><input type="text" class="form-control" v-model="myCard.oil"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">襪頭:</label>
+                <div class="col-lg-2"><input type="text" class="form-control" v-model="myCard.head"></div>
             </div>
             <div class="form-group">
                 <label class="col-lg-1 control-label">工號:</label>
@@ -68,17 +72,34 @@ export default {
             required: true
         }
     },
+    watch: {
+        tidyCard(newTidyCard) {
+            this.myCard.good = toDozenStr(newTidyCard.good),
+            this.myCard.sub = toDozenStr(newTidyCard.sub),
+            this.myCard.subNotPack = toDozenStr(newTidyCard.subNotPack),
+            this.myCard.stain = toDozenStr(newTidyCard.stain),
+            this.myCard.longShort = toDozenStr(newTidyCard.longShort),
+            this.myCard.broken = toDozenStr(newTidyCard.broken),
+            this.myCard.oil = toDozenStr(newTidyCard.oil),
+            this.myCard.notEven = toDozenStr(newTidyCard.notEven),
+            this.myCard.head = toDozenStr(newTidyCard.head),
+            this.myCard.operator = newTidyCard.operator            
+        }
+    },
     data() {
         return {
             myCard: {
                 good: toDozenStr(this.tidyCard.good),
                 sub: toDozenStr(this.tidyCard.sub),
+                subNotPack: toDozenStr(this.tidyCard.subNotPack),
                 stain: toDozenStr(this.tidyCard.stain),
+                longShort: toDozenStr(this.tidyCard.longShort),
                 broken: toDozenStr(this.tidyCard.broken),
+                oil: toDozenStr(this.tidyCard.oil),
                 notEven: toDozenStr(this.tidyCard.notEven),
+                head: toDozenStr(this.tidyCard.head),
                 operator: this.tidyCard.operator
-            },
-            over: false
+            }
         }
     },
     methods: {
@@ -90,9 +111,13 @@ export default {
             }
 
             this.tidyCard.sub = fromDozenStr(this.myCard.sub)
+            this.tidyCard.subNotPack = fromDozenStr(this.myCard.subNotPack)
             this.tidyCard.stain = fromDozenStr(this.myCard.stain)
+            this.tidyCard.longShort = fromDozenStr(this.myCard.longShort)
             this.tidyCard.broken = fromDozenStr(this.myCard.broken)
+            this.tidyCard.oil = fromDozenStr(this.myCard.oil)
             this.tidyCard.notEven = fromDozenStr(this.myCard.notEven)
+            this.tidyCard.head = fromDozenStr(this.myCard.head)
             this.tidyCard.operator = this.myCard.operator
 
             if (this.tidyCard.operator == null || this.tidyCard.operator == "") {
@@ -100,6 +125,7 @@ export default {
                 return false
             }
 
+            //FIXME
             let total = this.tidyCard.good + this.tidyCard.sub + this.tidyCard.stain + this.tidyCard.broken + this.tidyCard.notEven
             if (total > this.quantity * 1.1) {
                 alert("數量超過總量!")
