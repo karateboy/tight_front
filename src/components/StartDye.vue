@@ -37,7 +37,7 @@
             return {
                 id: "",
                 invalidId: false,
-                operatorList: ['康志明', '劉守任', '詹鎮岳', '陳炳翔'],
+                operatorList: ['康志明', '劉守任', '詹鎮岳', '陳炳翔', '許君豪'],
                 operator:'康志明'
             }
         },
